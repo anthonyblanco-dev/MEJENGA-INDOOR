@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La Mejenga</title>
+<meta property="og:title" content="⚽ La Mejenga: anótate">
+<meta property="og:description" content="Anótate para la próxima mejenga y mira quién va.">
+<meta name="theme-color" content="#1b7a3a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cesped:#1b7a3a; --cesped2:#208f44; --noche:#0b2a16;
+    --linea:rgba(255,255,255,.85); --rojo:#d62839; --oro:#ffd23f; --texto:#fff;
+    --titulos:'Bebas Neue',Impact,'Arial Narrow Bold',sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; min-height:100vh; color:var(--texto);
+    font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+    background:repeating-linear-gradient(90deg,var(--cesped) 0 70px,var(--cesped2) 70px 140px);
+    background-attachment:fixed;
+  }
+  /* marcas de la cancha: círculo central y línea de medio campo */
+  body::before{content:'';position:fixed;left:50%;top:50%;width:min(80vw,560px);aspect-ratio:1;
+    transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.13);border-radius:50%;pointer-events:none}
+  body::after{content:'';position:fixed;left:0;right:0;top:50%;height:3px;background:rgba(255,255,255,.13);pointer-events:none}
+  .envoltorio{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:16px 14px 60px}
+
+  header.marcador{text-align:center;padding:18px 10px 6px}
+  header.marcador .balon-logo{font-size:46px;display:inline-block;animation:rebote 2.4s ease-in-out infinite}
+  header.marcador h1{margin:0;font-family:var(--titulos);font-weight:400;font-size:clamp(44px,12vw,70px);letter-spacing:3px;
+    text-shadow:0 4px 0 rgba(0,0,0,.35);line-height:1}
+  header.marcador p{margin:6px 0 0;opacity:.9}
+  @keyframes rebote{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(180deg)}}
+
+  nav.tabs{display:flex;gap:8px;margin:14px 0 16px}
+  nav.tabs button{flex:1;padding:12px 8px;border:2px solid var(--linea);background:rgba(8,40,20,.55);color:#fff;
+    font-family:var(--titulos);font-size:22px;letter-spacing:1.5px;border-radius:12px;cursor:pointer}
+  nav.tabs button.activa{background:var(--oro);color:#1a1a1a;border-color:var(--oro)}
+
+  .panel,.cancha-card,.aviso{background:rgba(8,40,20,.84);border:2px solid var(--linea);border-radius:18px;
+    padding:16px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .aviso{text-align:center}
+  h2{font-family:var(--titulos);font-weight:400;font-size:30px;letter-spacing:1.5px;margin:0}
+  h3{font-family:var(--titulos);font-weight:400;font-size:22px;letter-spacing:1.2px;margin:18px 0 8px;color:var(--oro)}
+  .peq{font-size:13px;opacity:.85;margin:6px 0 0}
+
+  /* tarjeta de mejenga */
+  .marcador-card{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .marcador-card p{margin:4px 0 0;font-size:14px;opacity:.92;line-height:1.45}
+  .score{background:#06180d;border:2px solid var(--oro);border-radius:12px;padding:4px 12px;white-space:nowrap;
+    font-family:var(--titulos);font-size:34px;line-height:1.1;color:var(--oro)}
+  .score span{opacity:.6;margin:0 3px}
+  .barra{position:relative;height:10px;margin:16px 10px 8px 0;background:rgba(255,255,255,.2);border-radius:99px}
+  .barra i{position:relative;display:block;height:100%;background:var(--oro);border-radius:99px;transition:width .7s ease}
+  .barra i::after{content:'⚽';position:absolute;right:-10px;top:-9px;font-size:22px}
+  .estado{margin:10px 0 12px;font-weight:600}
+  .estado b{color:var(--oro);font-size:1.15em}
+  .cerrada .estado{color:#ffb3b3}
+
+  form.anotar{display:flex;gap:8px}
+  input,button.btn{font:inherit;font-size:16px}
+  input{width:100%;padding:12px 14px;border-radius:12px;border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.95);color:#111}
+  input:disabled{opacity:.5}
+  label{display:block;font-size:14px;margin:10px 0 0}
+  label input{margin-top:4px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  button.btn{padding:12px 16px;border:0;border-radius:12px;background:var(--oro);color:#1a1a1a;font-weight:800;cursor:pointer;
+    white-space:nowrap;box-shadow:0 3px 0 #b8860b}
+  button.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #b8860b}
+  button.btn:disabled{opacity:.5;cursor:not-allowed}
+  button.btn.sec{background:rgba(255,255,255,.9);box-shadow:0 3px 0 #9aa}
+  button.btn.peligro{background:var(--rojo);color:#fff;box-shadow:0 3px 0 #8f1a26}
+  .fila{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+  .acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+  /* camisetas */
+  ul.equipo{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px}
+  li.jugador{position:relative;text-align:center;padding:6px 2px}
+  .camiseta{width:100%;max-width:72px;height:auto;display:block;margin:0 auto}
+  .camiseta path{fill:var(--rojo);stroke:#fff;stroke-width:3;stroke-linejoin:round}
+  .camiseta text{fill:#fff;font-family:var(--titulos);font-size:36px}
+  li.jugador.mio .camiseta path{fill:var(--oro);stroke:#fff}
+  li.jugador.mio .camiseta text{fill:#1a1a1a}
+  li.jugador.libre .camiseta path{fill:transparent;stroke:rgba(255,255,255,.4);stroke-dasharray:6 5}
+  li.jugador.libre .nom{opacity:.45;font-style:italic}
+  .nom{display:block;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
+  button.quitar{position:absolute;top:-2px;right:2px;border:0;background:#fff;border-radius:8px;font-size:16px;line-height:1;
+    padding:3px 5px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+
+  ol.banca{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  li.suplente{display:flex;align-items:center;gap:10px;background:rgba(255,210,63,.14);border:2px solid rgba(255,210,63,.55);
+    border-radius:12px;padding:8px 12px}
+  li.suplente .pos{font-family:var(--titulos);font-size:24px;color:var(--oro);min-width:34px}
+  li.suplente .nom{flex:1;margin:0;font-size:15px}
+  li.suplente.mio{border-color:#fff;background:rgba(255,210,63,.3)}
+  li.suplente button.quitar{position:static}
+
+  .vacio{text-align:center;padding:30px 10px}
+  .vacio .grande{font-size:54px}
+
+  /* animaciones de jugadores */
+  .nuevo{animation:entra .75s cubic-bezier(.2,1.3,.4,1)}
+  @keyframes entra{0%{transform:translateY(-46px) scale(.3) rotate(-14deg);opacity:0}100%{transform:none;opacity:1}}
+  .sube{animation:sube 1.6s ease}
+  @keyframes sube{0%{transform:translateY(40px);opacity:.3}35%{transform:translateY(-14px) scale(1.14);filter:drop-shadow(0 0 14px var(--oro))}100%{transform:none;filter:none;opacity:1}}
+
+  /* efectos a pantalla completa */
+  #fx{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+  .fx-item{position:absolute;inset:0}
+  .balon{position:absolute;left:50%;bottom:-70px;font-size:64px;animation:chut 1s cubic-bezier(.2,.7,.3,1) forwards}
+  @keyframes chut{
+    0%{transform:translate(-50%,0) rotate(0) scale(1);opacity:1}
+    75%{transform:translate(-50%,-50vh) rotate(720deg) scale(.7);opacity:1}
+    100%{transform:translate(-50%,-56vh) rotate(900deg) scale(.5);opacity:0}}
+  .gol{position:absolute;top:28%;left:0;right:0;text-align:center;opacity:0;animation:golpop 1.7s .8s forwards}
+  .gol.rapido{animation-delay:0s}
+  .gol span{display:block;font-family:var(--titulos);font-size:clamp(54px,16vw,120px);line-height:1;color:var(--oro);
+    text-shadow:0 5px 0 #b8860b,0 0 30px rgba(0,0,0,.55)}
+  .gol small{display:inline-block;margin-top:8px;background:rgba(0,0,0,.65);padding:6px 14px;border-radius:99px;font-size:18px;font-weight:700}
+  @keyframes golpop{0%{opacity:0;transform:scale(.3)}25%{opacity:1;transform:scale(1.15)}40%{transform:scale(1)}85%{opacity:1}100%{opacity:0;transform:scale(1.05)}}
+  .conf{position:absolute;top:-16px;width:9px;height:14px;opacity:0;animation:caer 1.9s linear both}
+  @keyframes caer{0%{opacity:0;transform:translateY(0) rotate(0)}6%{opacity:1}100%{opacity:1;transform:translateY(108vh) rotate(560deg)}}
+  .roja{position:absolute;left:50%;top:38%;font-size:110px;transform:translate(-50%,-50%);animation:rojaAnim 1.5s ease forwards}
+  @keyframes rojaAnim{0%{transform:translate(-50%,-50%) scale(0) rotate(-40deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.2) rotate(8deg);opacity:1}
+    45%{transform:translate(-50%,-50%) scale(1) rotate(0)}85%{opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
+
+  #toasts{position:fixed;left:0;right:0;bottom:16px;z-index:60;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px}
+  .toast{background:#0a0a0a;color:#fff;border:2px solid var(--oro);padding:10px 16px;border-radius:14px;font-weight:600;max-width:420px;
+    animation:toastIn .3s ease;box-shadow:0 6px 16px rgba(0,0,0,.4)}
+  .toast.error{border-color:#ff6b6b}
+  .toast.sale{opacity:0;transform:translateY(10px);transition:.4s}
+  @keyframes toastIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .edit h3{margin-top:0}
+  .pasada{opacity:.6}
+  .credenciales{background:#06180d;border:2px dashed var(--oro);border-radius:12px;padding:12px;margin-top:12px;font-size:15px;line-height:1.6}
+  @media (max-width:430px){form.anotar{flex-direction:column}.grid2{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="envoltorio">
+  <header class="marcador">
+    <span class="balon-logo">⚽</span>
+    <h1>La Mejenga</h1>
+    <p>Anótate, mira quién va y cuántos cupos quedan</p>
+  </header>
+
+  <nav class="tabs">
+    <button id="tab-jugador" class="activa" data-tab="jugador">🧢 Jugador</button>
+    <button id="tab-admin" data-tab="admin">🟨 Árbitro</button>
+  </nav>
+
+  <main>
+    <section id="vista-jugador"><div class="aviso">⏳ Cargando la cancha…</div></section>
+    <section id="vista-admin" hidden></section>
+  </main>
+</div>
+<div id="fx"></div>
+<div id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ============ CONFIGURACIÓN: pega aquí tus datos de Supabase ============ */
+const SUPABASE_URL = 'https://qwyefbraycqnxpbclyqe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_WO9mSSmP9j69YL2uF6PNkA_Hd8D2CZr';
+/* ======================================================================== */
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const configurado = !SUPABASE_URL.includes('PEGA_AQUI') && !SUPABASE_ANON_KEY.includes('PEGA_AQUI');
+const sb = configurado ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+const DOMINIO = '@mejenga.app';
+const SEIS_HORAS = 6 * 3600 * 1000;
+
+/* ---------- almacenamiento local (a prueba de fallos) ---------- */
+const ls = {
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch {} }
+};
+const TOKEN = (() => {
+  let t = ls.get('mejenga_token');
+  if (!t) { t = crypto.randomUUID() + crypto.randomUUID(); ls.set('mejenga_token', t); }
+  return t;
+})();
+let mios = new Set((() => { try { return JSON.parse(ls.get('mejenga_mios') || '[]'); } catch { return []; } })());
+const guardarMios = () => ls.set('mejenga_mios', JSON.stringify([...mios]));
+
+/* ---------- estado ---------- */
+let mejengas = [], anotados = [];
+let esAdmin = false, session = null;
+let cargado = false, primerPintado = false;
+let posPrev = new Map(), llenasPrev = new Map();
+
+/* ---------- utilidades ---------- */
+const ERRORES = {
+  NOMBRE_REPETIDO: 'Ese nombre ya está anotado en esta mejenga.',
+  MEJENGA_CERRADA: 'La lista está cerrada.',
+  LIMITE_DISPOSITIVO: 'Máximo 3 anotaciones por dispositivo (tú y dos amigos).',
+  NOMBRE_INVALIDO: 'Escribe un nombre (máximo 40 letras).',
+  LISTA_MAXIMA: 'La lista llegó al máximo permitido.',
+  MEJENGA_NO_EXISTE: 'Esa mejenga ya no existe.'
+};
+function msgError(e){
+  const m = (e && e.message) || '';
+  for (const k in ERRORES) if (m.includes(k)) return ERRORES[k];
+  return 'Algo salió mal. Intenta de nuevo.';
+}
+const fechaBonita = iso => new Date(iso).toLocaleString('es-CR', {weekday:'long', day:'numeric', month:'long', hour:'numeric', minute:'2-digit'});
+const aLocalInput = iso => { const d = new Date(iso); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,16); };
+const aEmail = u => u.toLowerCase().trim() + DOMINIO;
+
+function toast(msg, tipo = ''){
+  const t = document.createElement('div');
+  t.className = 'toast ' + tipo; t.textContent = msg;
+  $('#toasts').appendChild(t);
+  setTimeout(() => t.classList.add('sale'), 3200);
+  setTimeout(() => t.remove(), 3700);
+}
+function fx(html, ms){
+  const d = document.createElement('div'); d.className = 'fx-item'; d.innerHTML = html;
+  $('#fx').appendChild(d); setTimeout(() => d.remove(), ms);
+}
+function confeti(retraso){
+  const colores = ['#ffd23f','#d62839','#ffffff','#2ec4b6','#3a86ff'];
+  return Array.from({length:26}, (_, i) =>
+    `<i class="conf" style="left:${Math.random()*100}%;animation-delay:${retraso + Math.random()*.6}s;background:${colores[i%5]}"></i>`).join('');
+}
+const celebrarGol = (nombre, num) => fx(`<div class="balon">⚽</div><div class="gol"><span>¡GOOOL!</span><small>#${num} · ${esc(nombre)}</small></div>${confeti(.8)}`, 3000);
+const celebrarBanca = (nombre, pos) => fx(`<div class="gol rapido"><span>🟨 A LA BANCA</span><small>${esc(nombre)} · ${pos}º en espera</small></div>`, 2000);
+const tarjetaRoja = () => fx(`<div class="roja">🟥</div>`, 1600);
+
+function camiseta(num){
+  return `<svg class="camiseta" viewBox="0 0 100 90" aria-hidden="true"><path d="M30 5 L10 18 L2 40 L18 46 L24 36 L24 85 L76 85 L76 36 L82 46 L98 40 L90 18 L70 5 Q50 22 30 5 Z"/><text x="50" y="64" text-anchor="middle">${num}</text></svg>`;
+}
+
+/* ---------- carga de datos ---------- */
+async function cargar(){
+  const [m, a] = await Promise.all([
+    sb.from('mejengas').select('*').order('fecha', {ascending:true}),
+    sb.from('anotados').select('id,mejenga_id,nombre,creado').order('creado', {ascending:true})
+  ]);
+  if (m.error || a.error) { toast('No se pudo cargar la lista. Revisa tu conexión.', 'error'); return; }
+  mejengas = m.data; anotados = a.data;
+  const ids = new Set(anotados.map(x => x.id));
+  mios = new Set([...mios].filter(id => ids.has(id))); guardarMios();
+  cargado = true;
+  pintarJugador();
+}
+
+function agrupar(){
+  const info = {}, pos = new Map();
+  for (const m of mejengas){
+    const lista = anotados.filter(a => a.mejenga_id === m.id);
+    const tit = lista.slice(0, m.capacidad), esp = lista.slice(m.capacidad);
+    tit.forEach(a => pos.set(a.id, 'T')); esp.forEach(a => pos.set(a.id, 'E'));
+    info[m.id] = {lista, tit, esp};
+  }
+  return {info, pos};
+}
+
+/* ---------- vista del jugador ---------- */
+function pintarJugador(){
+  const cont = $('#vista-jugador');
+  if (!configurado){
+    cont.innerHTML = `<div class="aviso"><div class="grande" style="font-size:48px">🛠️</div><h2>Falta configurar</h2><p>Abre <b>public/index.html</b> y pega tu URL y tu clave pública de Supabase al inicio del script.</p></div>`;
+    return;
+  }
+  if (!cargado) return;
+
+  const ahora = Date.now();
+  const visibles = mejengas.filter(m => esAdmin || new Date(m.fecha).getTime() > ahora - SEIS_HORAS);
+  const {info, pos} = agrupar();
+  const animar = primerPintado;
+
+  // recordar lo que la persona estaba escribiendo
+  const escrito = {};
+  cont.querySelectorAll('input[data-nombre]').forEach(i => escrito[i.dataset.nombre] = i.value);
+  const enfoque = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.nombre : null;
+
+  // detectar quién sube de la banca y cuándo se llena una lista
+  const sube = new Set();
+  if (animar){
+    for (const [id, p] of pos) if (p === 'T' && posPrev.get(id) === 'E') sube.add(id);
+    for (const a of anotados) if (sube.has(a.id)) toast(`⬆️ ${a.nombre} entra al campo`);
+    for (const m of visibles){
+      const llena = info[m.id].tit.length >= m.capacidad;
+      if (llena && llenasPrev.get(m.id) === false) toast(`🏁 ¡Pitazo! Cupo completo en "${m.titulo}"`);
+    }
+  }
+  const nuevo = id => animar && !posPrev.has(id);
+
+  if (!visibles.length){
+    cont.innerHTML = `<div class="panel vacio"><div class="grande">🏟️</div><h2>No hay mejengas programadas</h2><p>Cuando el árbitro cree una, aparecerá aquí.</p></div>`;
+  } else {
+    cont.innerHTML = visibles.map(m => {
+      const {tit, esp} = info[m.id];
+      const cap = m.capacidad, libres = Math.max(0, cap - tit.length);
+      const cerrada = !m.abierta;
+      const pasada = new Date(m.fecha).getTime() < ahora - SEIS_HORAS;
+      const pct = Math.min(100, Math.round(tit.length / cap * 100));
+      let estado;
+      if (pasada) estado = '⏱️ Esta mejenga ya se jugó';
+      else if (cerrada) estado = '🔒 Lista cerrada por el árbitro';
+      else if (libres > 0) estado = `Faltan <b>${libres}</b> ${libres === 1 ? 'cupo' : 'cupos'}`;
+      else estado = `🏁 Cupo completo${esp.length ? ' · ' + esp.length + ' en espera' : ''}`;
+      const bloquear = cerrada || pasada;
+
+      const titulares = tit.map((a, i) => {
+        const mio = mios.has(a.id);
+        const quitar = (mio || esAdmin) ? `<button class="quitar" data-quitar="${a.id}" data-nombre="${esc(a.nombre)}" title="Quitar">🟥</button>` : '';
+        return `<li class="jugador ${mio ? 'mio' : ''} ${nuevo(a.id) ? 'nuevo' : ''} ${sube.has(a.id) ? 'sube' : ''}">${camiseta(i + 1)}<span class="nom">${esc(a.nombre)}</span>${quitar}</li>`;
+      }).join('');
+      const libresHtml = Array.from({length: libres}, () => `<li class="jugador libre">${camiseta('')}<span class="nom">libre</span></li>`).join('');
+      const banca = esp.length ? `<h3>🟨 La banca (lista de espera)</h3><ol class="banca">${esp.map((a, i) => {
+        const mio = mios.has(a.id);
+        const quitar = (mio || esAdmin) ? `<button class="quitar" data-quitar="${a.id}" data-nombre="${esc(a.nombre)}" title="Quitar">🟥</button>` : '';
+        return `<li class="suplente ${mio ? 'mio' : ''} ${nuevo(a.id) ? 'nuevo' : ''}"><span class="pos">${i + 1}º</span><span class="nom">${esc(a.nombre)}</span>${quitar}</li>`;
+      }).join('')}</ol>` : '';
+
+      return `<article class="cancha-card ${cerrada ? 'cerrada' : ''} ${pasada ? 'pasada' : ''}">
+        <div class="marcador-card">
+          <div><h2>${esc(m.titulo)}</h2><p>📅 ${esc(fechaBonita(m.fecha))}<br>📍 ${esc(m.lugar)}</p></div>
+          <div class="score"><b>${tit.length}</b><span>/</span><b>${cap}</b></div>
+        </div>
+        <div class="barra"><i style="width:${pct}%"></i></div>
+        <p class="estado">${estado}</p>
+        <form class="anotar" data-anotar="${m.id}">
+          <input data-nombre="${m.id}" maxlength="40" placeholder="Tu nombre" autocomplete="name" ${bloquear ? 'disabled' : ''}>
+          <button class="btn" ${bloquear ? 'disabled' : ''}>⚽ Anotarme</button>
+        </form>
+        <h3>🥅 Titulares</h3>
+        <ul class="equipo">${titulares}${libresHtml}</ul>
+        ${banca}
+      </article>`;
+    }).join('');
+
+    // restaurar lo escrito (o el último nombre usado)
+    cont.querySelectorAll('input[data-nombre]').forEach(i => {
+      const id = i.dataset.nombre;
+      i.value = (id in escrito) ? escrito[id] : (ls.get('mejenga_nombre') || '');
+    });
+    if (enfoque){ const el = cont.querySelector(`input[data-nombre="${enfoque}"]`); if (el && !el.disabled) el.focus(); }
+  }
+
+  posPrev = pos;
+  llenasPrev = new Map(mejengas.map(m => [m.id, info[m.id].tit.length >= m.capacidad]));
+  primerPintado = true;
+}
+
+/* eventos de la vista del jugador */
+$('#vista-jugador').addEventListener('submit', async e => {
+  const f = e.target.closest('form[data-anotar]'); if (!f) return;
+  e.preventDefault();
+  const id = f.dataset.anotar, input = f.querySelector('input'), nombre = input.value.trim();
+  if (!nombre) { input.focus(); return; }
+  const btn = f.querySelector('button'); btn.disabled = true;
+  const {data, error} = await sb.rpc('anotarse', {p_mejenga: id, p_nombre: nombre, p_token: TOKEN});
+  btn.disabled = false;
+  if (error) { toast(msgError(error), 'error'); return; }
+  mios.add(data); guardarMios(); ls.set('mejenga_nombre', nombre); input.value = '';
+  await cargar();
+  const m = mejengas.find(x => x.id === id);
+  const lista = anotados.filter(a => a.mejenga_id === id);
+  const idx = lista.findIndex(a => a.id === data);
+  if (m && idx >= 0){
+    if (idx < m.capacidad) celebrarGol(nombre, idx + 1);
+    else celebrarBanca(nombre, idx - m.capacidad + 1);
+  }
+});
+
+$('#vista-jugador').addEventListener('click', async e => {
+  const b = e.target.closest('[data-quitar]'); if (!b) return;
+  const id = b.dataset.quitar, nombre = b.dataset.nombre;
+  let ok = false;
+  if (esAdmin){
+    if (!mios.has(id) && !confirm(`¿Sacar a ${nombre} de la lista?`)) return;
+    const {data, error} = await sb.from('anotados').delete().eq('id', id).select();
+    ok = !error && data && data.length > 0;
+  } else {
+    const {data, error} = await sb.rpc('quitarme', {p_id: id, p_token: TOKEN});
+    ok = !error && data === true;
+  }
+  if (!ok) { toast('No se pudo quitar. Intenta de nuevo.', 'error'); return; }
+  mios.delete(id); guardarMios();
+  tarjetaRoja(); toast(`🟥 ${nombre} sale de la lista`);
+  await cargar();
+});
+
+/* ---------- vista del árbitro ---------- */
+const usuarioActual = () => session && session.user.email ? session.user.email.replace(DOMINIO, '') : '';
+
+function pintarAdmin(){
+  const c = $('#vista-admin');
+  if (!configurado){ c.innerHTML = `<div class="aviso">Primero configura Supabase en <b>public/index.html</b>.</div>`; return; }
+  if (!esAdmin){
+    c.innerHTML = `<form class="panel" id="f-login">
+      <h2>🟨 Zona del árbitro</h2><p class="peq">Solo para quien organiza las mejengas. Los jugadores no necesitan entrar aquí.</p>
+      <label>Usuario<input name="u" autocomplete="username" autocapitalize="none" required></label>
+      <label>Contraseña<input name="p" type="password" autocomplete="current-password" required></label>
+      <div class="acciones"><button class="btn">Entrar</button></div></form>`;
+    return;
+  }
+  const {info} = agrupar();
+  const lista = mejengas.slice().sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(m => `
+    <form class="panel edit ${new Date(m.fecha).getTime() < Date.now() - SEIS_HORAS ? 'pasada' : ''}" data-editar="${m.id}">
+      <div class="fila"><h3>${esc(m.titulo)}</h3><span class="peq">${info[m.id].lista.length} anotados · ${m.abierta ? '🟢 abierta' : '🔒 cerrada'}</span></div>
+      <div class="grid2">
+        <label>Título<input name="titulo" maxlength="80" value="${esc(m.titulo)}" required></label>
+        <label>Lugar<input name="lugar" maxlength="80" value="${esc(m.lugar)}" required></label>
+        <label>Fecha y hora<input name="fecha" type="datetime-local" value="${aLocalInput(m.fecha)}" required></label>
+        <label>Cupos máximos<input name="capacidad" type="number" min="2" max="50" value="${m.capacidad}" required></label>
+      </div>
+      <div class="acciones">
+        <button class="btn">💾 Guardar</button>
+        <button class="btn sec" type="button" data-toggle="${m.id}">${m.abierta ? '🔒 Cerrar lista' : '🟢 Abrir lista'}</button>
+        <button class="btn sec" type="button" data-copiar="${m.id}">📲 Copiar mensaje</button>
+        <button class="btn peligro" type="button" data-borrar="${m.id}">🗑️ Eliminar</button>
+      </div>
+    </form>`).join('');
+
+  c.innerHTML = `
+    <div class="panel"><div class="fila"><div><h2>🟨 Panel del árbitro</h2><p class="peq">Sesión: <b>${esc(usuarioActual())}</b>. Desde la pestaña Jugador también puedes anotarte y quitar gente.</p></div>
+      <button class="btn sec" id="salir">Cerrar sesión</button></div></div>
+
+    <form class="panel" id="f-nueva">
+      <h2>➕ Nueva mejenga</h2>
+      <div class="grid2">
+        <label>Título<input name="titulo" maxlength="80" value="Mejenga" required></label>
+        <label>Lugar<input name="lugar" maxlength="80" placeholder="Ej: Cancha Los Ángeles" required></label>
+        <label>Fecha y hora<input name="fecha" type="datetime-local" required></label>
+        <label>Cupos máximos<input name="capacidad" type="number" min="2" max="50" value="14" required></label>
+      </div>
+      <div class="acciones"><button class="btn">⚽ Crear mejenga</button></div>
+    </form>
+
+    <h3 style="margin-left:4px">📋 Mis mejengas</h3>
+    ${lista || '<div class="panel peq">Aún no has creado ninguna.</div>'}
+
+    <form class="panel" id="f-admin">
+      <h2>🧑‍⚖️ Agregar otro árbitro</h2>
+      <p class="peq">Crea un usuario y una contraseña y entrégaselos a la persona. Podrá crear y administrar mejengas.</p>
+      <div class="grid2">
+        <label>Usuario<input name="u" autocapitalize="none" placeholder="ej: carlos" required></label>
+        <label>Contraseña (mín. 8)<input name="p" id="pass-nueva" minlength="8" required></label>
+      </div>
+      <div class="acciones"><button class="btn">Crear árbitro</button><button class="btn sec" type="button" id="generar">🎲 Generar contraseña</button></div>
+      <div id="credenciales"></div>
+    </form>`;
+}
+
+const adminEl = $('#vista-admin');
+
+adminEl.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, fd = new FormData(f);
+
+  if (f.id === 'f-login'){
+    const {error} = await sb.auth.signInWithPassword({email: aEmail(fd.get('u')), password: fd.get('p')});
+    if (error) toast('Usuario o contraseña incorrectos.', 'error'); else toast('¡Bienvenido, árbitro! 🟨');
+    return;
+  }
+  if (f.id === 'f-nueva'){
+    const {error} = await sb.from('mejengas').insert({
+      titulo: fd.get('titulo').trim(), lugar: fd.get('lugar').trim(),
+      fecha: new Date(fd.get('fecha')).toISOString(), capacidad: Number(fd.get('capacidad'))
+    });
+    if (error) { toast('No se pudo crear la mejenga.', 'error'); return; }
+    toast('Mejenga creada ⚽'); await cargar(); pintarAdmin(); return;
+  }
+  if (f.dataset.editar){
+    const {error} = await sb.from('mejengas').update({
+      titulo: fd.get('titulo').trim(), lugar: fd.get('lugar').trim(),
+      fecha: new Date(fd.get('fecha')).toISOString(), capacidad: Number(fd.get('capacidad'))
+    }).eq('id', f.dataset.editar);
+    if (error) { toast('No se pudo guardar.', 'error'); return; }
+    toast('Cambios guardados ✅'); await cargar(); pintarAdmin(); return;
+  }
+  if (f.id === 'f-admin'){
+    const usuario = String(fd.get('u')).trim().toLowerCase(), password = String(fd.get('p'));
+    if (!session) return;
+    let r, j = {};
+    try {
+      r = await fetch('/.netlify/functions/crear-admin', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token},
+        body: JSON.stringify({usuario, password})
+      });
+      j = await r.json().catch(() => ({}));
+    } catch { toast('No se pudo conectar con el servidor.', 'error'); return; }
+    if (!r.ok) { toast(j.error || 'No se pudo crear el árbitro.', 'error'); return; }
+    $('#credenciales').innerHTML = `<div class="credenciales">✅ Árbitro creado. Entrégale estos datos:<br>Usuario: <b>${esc(usuario)}</b><br>Contraseña: <b>${esc(password)}</b><br>
+      <div class="acciones"><button class="btn sec" type="button" data-copiarcred="${esc(usuario)}|${esc(password)}">📋 Copiar datos</button></div></div>`;
+    f.reset(); toast('Árbitro creado 🧑‍⚖️');
+  }
+});
+
+adminEl.addEventListener('click', async e => {
+  const t = e.target.closest('button'); if (!t) return;
+
+  if (t.id === 'salir'){ await sb.auth.signOut(); toast('Sesión cerrada'); return; }
+
+  if (t.id === 'generar'){
+    const abc = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const bytes = crypto.getRandomValues(new Uint8Array(12));
+    $('#pass-nueva').value = Array.from(bytes, b => abc[b % abc.length]).join('');
+    return;
+  }
+  if (t.dataset.copiarcred){
+    const [u, p] = t.dataset.copiarcred.split('|');
+    try { await navigator.clipboard.writeText(`Usuario: ${u}\nContraseña: ${p}`); toast('Datos copiados 📋'); } catch { toast('No se pudo copiar.', 'error'); }
+    return;
+  }
+  if (t.dataset.toggle){
+    const m = mejengas.find(x => x.id === t.dataset.toggle); if (!m) return;
+    const {error} = await sb.from('mejengas').update({abierta: !m.abierta}).eq('id', m.id);
+    if (error) { toast('No se pudo cambiar.', 'error'); return; }
+    toast(m.abierta ? 'Lista cerrada 🔒' : 'Lista abierta 🟢'); await cargar(); pintarAdmin(); return;
+  }
+  if (t.dataset.copiar){
+    const m = mejengas.find(x => x.id === t.dataset.copiar); if (!m) return;
+    const msg = `⚽ *${m.titulo}*\n📅 ${fechaBonita(m.fecha)}\n📍 ${m.lugar}\n👥 ${m.capacidad} cupos\n\nAnótate aquí 👉 ${location.origin}${location.pathname}`;
+    try { await navigator.clipboard.writeText(msg); toast('Mensaje copiado. ¡Pégalo en WhatsApp! 📲'); } catch { toast('No se pudo copiar.', 'error'); }
+    return;
+  }
+  if (t.dataset.borrar){
+    const m = mejengas.find(x => x.id === t.dataset.borrar); if (!m) return;
+    if (!confirm(`¿Eliminar "${m.titulo}" y toda su lista? Esto no se puede deshacer.`)) return;
+    const {error} = await sb.from('mejengas').delete().eq('id', m.id);
+    if (error) { toast('No se pudo eliminar.', 'error'); return; }
+    toast('Mejenga eliminada 🗑️'); await cargar(); pintarAdmin();
+  }
+});
+
+/* ---------- pestañas ---------- */
+function irA(tab){
+  $('#vista-jugador').hidden = tab !== 'jugador';
+  $('#vista-admin').hidden = tab !== 'admin';
+  $('#tab-jugador').classList.toggle('activa', tab === 'jugador');
+  $('#tab-admin').classList.toggle('activa', tab === 'admin');
+  if (tab === 'admin') pintarAdmin();
+}
+document.querySelectorAll('nav.tabs button').forEach(b => b.addEventListener('click', () => irA(b.dataset.tab)));
+
+/* ---------- arranque ---------- */
+async function iniciar(){
+  if (!configurado){ pintarJugador(); return; }
+
+  sb.auth.onAuthStateChange((_evento, s) => {
+    const antes = esAdmin;
+    session = s; esAdmin = !!s;
+    if (antes !== esAdmin){ pintarJugador(); if (!$('#vista-admin').hidden) pintarAdmin(); }
+  });
+
+  await cargar();
+
+  // tiempo real + respaldo por si se corta la conexión
+  let espera;
+  const pedir = () => { clearTimeout(espera); espera = setTimeout(cargar, 250); };
+  sb.channel('mejenga-cambios')
+    .on('postgres_changes', {event: '*', schema: 'public', table: 'anotados'}, pedir)
+    .on('postgres_changes', {event: '*', schema: 'public', table: 'mejengas'}, pedir)
+    .subscribe();
+  setInterval(() => { if (!document.hidden) cargar(); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) cargar(); });
+
+  if (location.hash === '#arbitro') irA('admin');
+}
+iniciar();
+</script>
+</body>
+</html>
