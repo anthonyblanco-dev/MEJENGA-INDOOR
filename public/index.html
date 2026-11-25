@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>La Mejenga</title>
-<meta property="og:title" content="⚽ La Mejenga: anótate">
+<title>Lista Super Master Indoor FC</title>
+<meta property="og:title" content="⚽ Lista Super Master Indoor FC">
 <meta property="og:description" content="Anótate para la próxima mejenga y mira quién va.">
 <meta name="theme-color" content="#1b7a3a">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
@@ -25,18 +25,25 @@
     background:repeating-linear-gradient(90deg,var(--cesped) 0 70px,var(--cesped2) 70px 140px);
     background-attachment:fixed;
   }
+  body.sin-scroll{overflow:hidden}
   /* marcas de la cancha: círculo central y línea de medio campo */
   body::before{content:'';position:fixed;left:50%;top:50%;width:min(80vw,560px);aspect-ratio:1;
     transform:translate(-50%,-50%);border:3px solid rgba(255,255,255,.13);border-radius:50%;pointer-events:none}
   body::after{content:'';position:fixed;left:0;right:0;top:50%;height:3px;background:rgba(255,255,255,.13);pointer-events:none}
   .envoltorio{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:16px 14px 60px}
 
-  header.marcador{text-align:center;padding:18px 10px 6px}
-  header.marcador .balon-logo{font-size:46px;display:inline-block;animation:rebote 2.4s ease-in-out infinite}
-  header.marcador h1{margin:0;font-family:var(--titulos);font-weight:400;font-size:clamp(44px,12vw,70px);letter-spacing:3px;
-    text-shadow:0 4px 0 rgba(0,0,0,.35);line-height:1}
-  header.marcador p{margin:6px 0 0;opacity:.9}
+  header.marcador{position:relative;text-align:center;padding:14px 0 6px}
+  header.marcador .balon-logo{font-size:40px;display:inline-block;animation:rebote 2.4s ease-in-out infinite}
+  header.marcador h1{margin:0;font-family:var(--titulos);font-weight:400;line-height:.95;text-shadow:0 4px 0 rgba(0,0,0,.35)}
+  header.marcador h1 .l1{display:block;font-size:clamp(24px,6.6vw,42px);letter-spacing:2px}
+  header.marcador h1 .l2{display:block;font-size:clamp(46px,13vw,84px);letter-spacing:2px;color:var(--oro)}
+  header.marcador p{margin:8px 0 0;opacity:.9}
   @keyframes rebote{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(180deg)}}
+
+  /* botón del menú lateral */
+  .btn-menu{position:absolute;left:0;top:14px;width:46px;height:46px;border-radius:14px;border:2px solid var(--linea);
+    background:rgba(8,40,20,.75);color:#fff;font-size:24px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .btn-menu:active{transform:scale(.95)}
 
   nav.tabs{display:flex;gap:8px;margin:14px 0 16px}
   nav.tabs button{flex:1;padding:12px 8px;border:2px solid var(--linea);background:rgba(8,40,20,.55);color:#fff;
@@ -48,8 +55,10 @@
   .aviso{text-align:center}
   h2{font-family:var(--titulos);font-weight:400;font-size:30px;letter-spacing:1.5px;margin:0}
   h3{font-family:var(--titulos);font-weight:400;font-size:22px;letter-spacing:1.2px;margin:18px 0 8px;color:var(--oro)}
-  h4{font-family:var(--titulos);font-weight:400;font-size:19px;letter-spacing:1px;margin:12px 0 6px;color:var(--oro)}
+  h4{font-family:var(--titulos);font-weight:400;font-size:19px;letter-spacing:1px;margin:14px 0 6px;color:var(--oro)}
   .peq{font-size:13px;opacity:.85;margin:6px 0 0}
+  .centro{text-align:center}
+  .contador{display:inline-block;min-width:26px;padding:0 8px;margin-left:6px;border-radius:99px;background:var(--oro);color:#1a1a1a;font-size:18px;text-align:center}
 
   /* tarjeta de mejenga */
   .marcador-card{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
@@ -66,11 +75,11 @@
   .cerrada .estado,.juego .estado{color:#ffb3b3;margin-bottom:12px}
 
   form.anotar{display:flex;gap:8px}
-  input,button.btn{font:inherit;font-size:16px}
-  input{width:100%;padding:12px 14px;border-radius:12px;border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.95);color:#111}
+  input,select,button.btn{font:inherit;font-size:16px}
+  input,select{width:100%;padding:12px 14px;border-radius:12px;border:2px solid rgba(255,255,255,.55);background:rgba(255,255,255,.95);color:#111}
   input:disabled{opacity:.5}
   label{display:block;font-size:14px;margin:10px 0 0}
-  label input{margin-top:4px}
+  label input,label select{margin-top:4px}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   button.btn{padding:12px 16px;border:0;border-radius:12px;background:var(--oro);color:#1a1a1a;font-weight:800;cursor:pointer;
     white-space:nowrap;box-shadow:0 3px 0 #b8860b}
@@ -78,10 +87,23 @@
   button.btn:disabled{opacity:.5;cursor:not-allowed}
   button.btn.sec{background:rgba(255,255,255,.9);box-shadow:0 3px 0 #9aa}
   button.btn.peligro{background:var(--rojo);color:#fff;box-shadow:0 3px 0 #8f1a26}
-  button.btn.chico{padding:8px 12px;font-size:14px}
+  button.btn.chico{padding:9px 12px;font-size:14px}
+  button.link{background:none;border:0;color:#cfe8ff;text-decoration:underline;font:inherit;font-size:13px;padding:6px 0;cursor:pointer;text-align:left}
   .fila{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
   .acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .exportar{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.35)}
+
+  /* selector de hora en formato 12 horas */
+  .hora12{display:flex;align-items:center;gap:6px;margin-top:4px}
+  .hora12 select{margin:0;padding:12px 8px;flex:1;min-width:0}
+  .hora12 b{font-size:20px}
+
+  /* publicación programada */
+  fieldset.pub{border:2px dashed rgba(255,255,255,.4);border-radius:14px;margin:14px 0 0;padding:10px 12px 12px}
+  fieldset.pub legend{padding:0 8px;font-family:var(--titulos);font-size:20px;letter-spacing:1px;color:var(--oro)}
+  label.opcion{display:flex;align-items:center;gap:10px;margin:8px 0 0;font-size:15px;cursor:pointer}
+  label.opcion input{width:20px;height:20px;margin:0;accent-color:var(--oro)}
+  .pub-prog{margin-top:6px}
 
   /* camisetas */
   ul.equipo{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px}
@@ -94,8 +116,9 @@
   li.jugador.libre .camiseta path{fill:transparent;stroke:rgba(255,255,255,.4);stroke-dasharray:6 5}
   li.jugador.libre .nom{opacity:.45;font-style:italic}
   .nom{display:block;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
-  button.quitar{position:absolute;top:-2px;right:2px;border:0;background:#fff;border-radius:8px;font-size:16px;line-height:1;
-    padding:3px 5px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+  /* botón 🟥 más grande para que sea fácil de tocar en el celular */
+  button.quitar{position:absolute;top:-6px;right:-2px;min-width:38px;min-height:38px;border:0;background:#fff;border-radius:10px;font-size:19px;line-height:1;
+    padding:6px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.4);touch-action:manipulation}
 
   ol.banca{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
   li.suplente{display:flex;align-items:center;gap:10px;background:rgba(255,210,63,.14);border:2px solid rgba(255,210,63,.55);
@@ -106,19 +129,49 @@
   li.suplente button.quitar{position:static}
   .banca-vacia{margin:0;padding:10px 12px;border:2px dashed rgba(255,210,63,.5);border-radius:12px;font-size:14px;opacity:.9}
 
+  /* tu anotación */
+  .mi-anotacion{background:rgba(255,210,63,.16);border:2px solid var(--oro);border-radius:14px;padding:12px 14px}
+  .mi-anotacion p{margin:0 0 6px;line-height:1.4}
+  .mi-anotacion .codigo{font-family:var(--titulos);font-size:24px;letter-spacing:3px;color:var(--oro)}
+  .mi-anotacion .acciones{margin-top:8px}
+
   .vacio{text-align:center;padding:30px 10px}
-  .vacio .grande{font-size:54px}
+
+  /* pasador (carrusel con números) */
+  .pasador-pagina.anim{animation:pasa .35s ease}
+  @keyframes pasa{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+  .pasador-nav{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:2px 0 6px}
+  button.pag{min-width:42px;height:42px;border-radius:50%;border:2px solid var(--linea);background:rgba(8,40,20,.75);color:#fff;
+    font-family:var(--titulos);font-size:21px;cursor:pointer}
+  button.pag.activa{background:var(--oro);color:#1a1a1a;border-color:var(--oro)}
+  button.pag.flecha{font-size:26px;line-height:1;padding-bottom:3px}
+  button.pag:disabled{opacity:.35;cursor:default}
 
   /* lista de anotados dentro del panel del árbitro */
   details.detalle{margin-top:14px;border-top:1px dashed rgba(255,255,255,.35);padding-top:10px}
-  details.detalle summary{cursor:pointer;font-weight:700;padding:4px 0}
+  details.detalle summary,details.terminada summary{cursor:pointer;font-weight:700;padding:4px 0}
   .lista-admin ol{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
   .lista-admin li{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border-radius:10px;padding:6px 10px}
   .lista-admin li.espera{background:rgba(255,210,63,.14)}
   .lista-admin .pos{font-family:var(--titulos);font-size:20px;color:var(--oro);min-width:28px}
   .lista-admin .nombre{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .lista-admin .hora{font-size:12px;opacity:.7}
-  .lista-admin button.quitar{position:static}
+  .lista-admin .hora{font-size:12px;opacity:.75;white-space:nowrap}
+  .lista-admin button.quitar{position:static;min-width:34px;min-height:34px}
+  .lista-admin ol.bajas li{flex-wrap:wrap;background:rgba(214,40,57,.18);gap:2px 10px}
+  .lista-admin ol.bajas .cuando{font-size:13px;font-weight:600}
+  .lista-admin ol.bajas .quien{flex-basis:100%;font-size:12px;opacity:.8;padding-left:0}
+
+  /* mejengas terminadas: archivadas, en gris y solo lectura */
+  details.terminada{filter:grayscale(1);opacity:.88;background:rgba(40,40,40,.8)}
+  details.terminada summary{list-style:none;display:flex;flex-direction:column;gap:2px;position:relative;padding-right:28px}
+  details.terminada summary::-webkit-details-marker{display:none}
+  details.terminada summary .t-titulo{font-family:var(--titulos);font-size:24px;letter-spacing:1.2px}
+  details.terminada summary .t-info{font-size:13px;opacity:.85}
+  details.terminada summary::after{content:'▾';position:absolute;right:4px;top:8px;font-size:20px;transition:transform .2s}
+  details.terminada[open] summary::after{transform:rotate(180deg)}
+  details.terminada .t-cuerpo{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.35)}
+  .etiqueta{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;background:rgba(255,255,255,.18);font-weight:700}
+  .etiqueta.prog{background:#3a86ff}
 
   /* animaciones de jugadores */
   .nuevo{animation:entra .75s cubic-bezier(.2,1.3,.4,1)}
@@ -146,25 +199,39 @@
   @keyframes rojaAnim{0%{transform:translate(-50%,-50%) scale(0) rotate(-40deg);opacity:0}25%{transform:translate(-50%,-50%) scale(1.2) rotate(8deg);opacity:1}
     45%{transform:translate(-50%,-50%) scale(1) rotate(0)}85%{opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
 
-  #toasts{position:fixed;left:0;right:0;bottom:16px;z-index:60;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px}
-  .toast{background:#0a0a0a;color:#fff;border:2px solid var(--oro);padding:10px 16px;border-radius:14px;font-weight:600;max-width:420px;
+  #toasts{position:fixed;left:0;right:0;bottom:16px;z-index:90;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 12px}
+  .toast{background:#0a0a0a;color:#fff;border:2px solid var(--oro);padding:10px 16px;border-radius:14px;font-weight:600;max-width:440px;
     animation:toastIn .3s ease;box-shadow:0 6px 16px rgba(0,0,0,.4)}
   .toast.error{border-color:#ff6b6b}
   .toast.sale{opacity:0;transform:translateY(10px);transition:.4s}
   @keyframes toastIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-  /* ventana de confirmación */
-  #modal{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:18px}
-  #modal[hidden]{display:none}
+  /* ventanas de confirmación */
+  .modal-fondo{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:18px}
+  .modal-fondo[hidden]{display:none}
   .modal-caja{background:#0b2a16;border:3px solid var(--rojo);border-radius:20px;padding:22px 20px;max-width:380px;width:100%;text-align:center;
     box-shadow:0 12px 40px rgba(0,0,0,.6);animation:entra .45s cubic-bezier(.2,1.3,.4,1)}
   .modal-icono{font-size:64px;line-height:1}
   .modal-caja h3{margin:10px 0 6px;font-size:28px;color:#fff}
   .modal-caja p{margin:0 0 6px;opacity:.92;line-height:1.45}
+  .modal-caja label{text-align:left}
   .modal-caja .acciones{justify-content:center;margin-top:16px}
 
+  /* menú lateral: cómo funciona */
+  #drawer-fondo{position:fixed;inset:0;z-index:75;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity .3s}
+  #drawer-fondo.abierto{opacity:1;pointer-events:auto}
+  #drawer{position:fixed;top:0;left:0;bottom:0;width:min(90vw,390px);z-index:80;background:#0b2a16;border-right:3px solid var(--oro);
+    transform:translateX(-105%);visibility:hidden;transition:transform .3s ease,visibility .3s;overflow-y:auto;box-shadow:8px 0 30px rgba(0,0,0,.5)}
+  #drawer.abierto{transform:none;visibility:visible}
+  #drawer .drawer-cab{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#0b2a16;border-bottom:2px solid rgba(255,255,255,.25)}
+  #drawer .drawer-cab h2{font-size:28px}
+  #drawer button.cerrar{width:42px;height:42px;border-radius:12px;border:2px solid var(--linea);background:transparent;color:#fff;font-size:20px;cursor:pointer}
+  #drawer .drawer-cuerpo{padding:4px 18px 30px;line-height:1.5;font-size:15px}
+  #drawer ol{padding-left:22px;margin:8px 0}
+  #drawer li{margin-bottom:8px}
+  #drawer .nota{background:rgba(255,210,63,.14);border:2px solid rgba(255,210,63,.55);border-radius:12px;padding:10px 12px}
+
   .edit h3{margin-top:0}
-  .pasada{opacity:.6}
   .credenciales{background:#06180d;border:2px dashed var(--oro);border-radius:12px;padding:12px;margin-top:12px;font-size:15px;line-height:1.6}
   @media (max-width:430px){form.anotar{flex-direction:column}.grid2{grid-template-columns:1fr}}
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
@@ -173,8 +240,9 @@
 <body>
 <div class="envoltorio">
   <header class="marcador">
+    <button class="btn-menu" id="btn-menu" type="button" aria-label="Abrir menú: cómo funciona la app" aria-expanded="false" aria-controls="drawer">☰</button>
     <span class="balon-logo">⚽</span>
-    <h1>La Mejenga</h1>
+    <h1><span class="l1">Lista Super Master</span> <span class="l2">Indoor FC</span></h1>
     <p>Anótate, mira quién va y cuántos cupos quedan</p>
   </header>
 
@@ -189,7 +257,37 @@
   </main>
 </div>
 
-<div id="modal" hidden>
+<!-- Menú lateral -->
+<div id="drawer-fondo"></div>
+<aside id="drawer" aria-hidden="true" aria-label="Cómo funciona la app" tabindex="-1">
+  <div class="drawer-cab"><h2>¿Cómo funciona?</h2><button class="cerrar" id="drawer-cerrar" type="button" aria-label="Cerrar menú">✕</button></div>
+  <div class="drawer-cuerpo">
+    <h3>🧢 Si vas a jugar</h3>
+    <ol>
+      <li><b>Elige tu mejenga.</b> Verás las listas abiertas con su fecha, hora y lugar.</li>
+      <li><b>Escribe tu nombre</b> y toca <b>⚽ Anotarme</b>. Solo puedes anotarte <b>una vez</b> por mejenga.</li>
+      <li><b>Titulares y banca:</b> los primeros en anotarse son los titulares (camisetas). Si la lista ya está llena, quedas en la <b>🟨 banca</b>, en orden de llegada.</li>
+      <li><b>Si alguien se sale</b>, el primero de la banca entra solo al campo.</li>
+      <li><b>La lista se cierra sola</b> a la hora de inicio de la mejenga.</li>
+      <li><b>¿No puedes ir?</b> Toca <b>🟥 Salirme de la lista</b> y confirma. Tu lugar pasa al siguiente.</li>
+    </ol>
+    <p class="nota">🔑 Al anotarte te damos un <b>código de salida</b>. Guárdalo: si cambias de celular o de navegador lo necesitas para salirte con <b>«Salir con mi código»</b>. Si no lo tienes, pídele al árbitro que te quite.</p>
+    <p>📋 Con <b>Copiar lista</b> o <b>Descargar</b> puedes compartir quién va (por ejemplo en WhatsApp).</p>
+
+    <h3>🟨 Si eres árbitro</h3>
+    <ol>
+      <li>Entra a la pestaña <b>Árbitro</b> con tu usuario y contraseña (solo el nombre, sin <b>@</b>).</li>
+      <li><b>Crea una mejenga</b>: título, lugar, fecha, hora de inicio y de fin (con AM/PM) y la cantidad de cupos.</li>
+      <li><b>Publicación:</b> puedes publicarla ya o programarla para otro día y hora. Antes de eso nadie más la ve.</li>
+      <li>En <b>Ver anotados</b> ves titulares, banca y la <b>hora en que se anotó y se quitó</b> cada persona. También puedes sacar a alguien con 🟥.</li>
+      <li>Las mejengas que terminan pasan solas a <b>Mejengas terminadas</b>: quedan en gris, solo para consultar.</li>
+      <li>Desde <b>Mi perfil</b> cambias tu usuario o contraseña, y desde <b>Agregar otro árbitro</b> creas accesos para otras personas.</li>
+    </ol>
+  </div>
+</aside>
+
+<!-- Confirmación (salir de la lista, eliminar, etc.) -->
+<div id="modal" class="modal-fondo" hidden>
   <div class="modal-caja" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
     <div class="modal-icono" id="modal-icono">🟥</div>
     <h3 id="modal-titulo"></h3>
@@ -200,6 +298,22 @@
     </div>
   </div>
 </div>
+
+<!-- Salir con el código de salida -->
+<div id="modal-cod" class="modal-fondo" hidden>
+  <form class="modal-caja" id="f-cod" role="dialog" aria-modal="true" aria-labelledby="cod-titulo">
+    <div class="modal-icono">🔑</div>
+    <h3 id="cod-titulo">Salir con mi código</h3>
+    <p>Escribe el nombre con el que te anotaste y el <b>código de salida</b> que viste al anotarte.</p>
+    <label>Nombre<input name="nombre" maxlength="40" autocomplete="off" required></label>
+    <label>Código (solo números)<input name="codigo" inputmode="numeric" pattern="[0-9]{4,8}" maxlength="8" autocomplete="off" required></label>
+    <div class="acciones">
+      <button class="btn peligro" type="submit">🟥 Salirme de la lista</button>
+      <button class="btn sec" id="cod-cancelar" type="button">Cancelar</button>
+    </div>
+  </form>
+</div>
+
 <div id="fx"></div>
 <div id="toasts"></div>
 
@@ -222,29 +336,43 @@ const ls = {
   get(k){ try { return localStorage.getItem(k); } catch { return null; } },
   set(k,v){ try { localStorage.setItem(k,v); } catch {} }
 };
+/* el código del dispositivo se guarda también en una cookie por si el navegador borra el almacenamiento local */
+const ck = {
+  get(k){ try { const m = document.cookie.match(new RegExp('(?:^|; )' + k + '=([^;]*)')); return m ? decodeURIComponent(m[1]) : null; } catch { return null; } },
+  set(k,v){ try { document.cookie = `${k}=${encodeURIComponent(v)}; max-age=${60*60*24*365}; path=/; SameSite=Lax`; } catch {} }
+};
 const TOKEN = (() => {
-  let t = ls.get('mejenga_token');
-  if (!t) { t = crypto.randomUUID() + crypto.randomUUID(); ls.set('mejenga_token', t); }
+  let t = ls.get('mejenga_token') || ck.get('mejenga_token');
+  if (!t || t.length < 16) t = crypto.randomUUID() + crypto.randomUUID();
+  ls.set('mejenga_token', t); ck.set('mejenga_token', t);
   return t;
 })();
 let mios = new Set((() => { try { return JSON.parse(ls.get('mejenga_mios') || '[]'); } catch { return []; } })());
 const guardarMios = () => ls.set('mejenga_mios', JSON.stringify([...mios]));
+let codigos = (() => { try { return JSON.parse(ls.get('mejenga_codigos') || '{}') || {}; } catch { return {}; } })();
+const guardarCodigos = () => ls.set('mejenga_codigos', JSON.stringify(codigos));
 
 /* ---------- estado ---------- */
-let mejengas = [], anotados = [];
+let mejengas = [], anotados = [], bajas = [];
 let esAdmin = false, session = null;
-let cargado = false, primerPintado = false;
+let cargado = false, primerPintado = false, adminShell = null;
 let posPrev = new Map(), llenasPrev = new Map(), estadosPrev = new Map();
+let firmaJugador = '', firmaAdmin = '';
+const paginas = {activas: 0, terminadas: 0};
 
 /* ---------- utilidades ---------- */
 const ERRORES = {
   NOMBRE_REPETIDO: 'Ese nombre ya está anotado en esta mejenga.',
   MEJENGA_CERRADA: 'La lista ya está cerrada.',
-  LIMITE_DISPOSITIVO: 'Máximo 3 anotaciones por dispositivo (tú y dos amigos).',
+  LIMITE_DISPOSITIVO: 'Ya estás anotado en esta mejenga. Solo se permite una anotación por persona.',
   NOMBRE_INVALIDO: 'Escribe un nombre (máximo 40 letras).',
   LISTA_MAXIMA: 'La lista llegó al máximo permitido.',
   MEJENGA_NO_EXISTE: 'Esa mejenga ya no existe.',
   FECHA_PASADA: 'No se pueden poner fechas ni horas que ya pasaron.',
+  MEJENGA_TERMINADA: 'Esa mejenga ya terminó y no se puede modificar.',
+  YA_PUBLICADA: 'Esa mejenga ya está publicada; su hora de publicación no se puede cambiar.',
+  PUBLICA_DESPUES: 'La publicación debe ser antes de que empiece la mejenga.',
+  mejengas_publica_antes: 'La publicación debe ser antes de que empiece la mejenga.',
   mejengas_fin_mayor: 'La hora de fin debe ser después de la hora de inicio.'
 };
 function msgError(e, porDefecto = 'Algo salió mal. Intenta de nuevo.'){
@@ -263,19 +391,29 @@ function rango(m){
   if (a.toDateString() === b.toDateString()) return `${diaBonito(a)} · ${horaBonita(a)} a ${horaBonita(b)}`;
   return `${diaBonito(a)} ${horaBonita(a)} → ${diaBonito(b)} ${horaBonita(b)}`;
 }
-const aEmail = u => u.toLowerCase().trim() + DOMINIO;
+function cuando(iso){
+  const d = new Date(iso), h = horaBonita(iso);
+  if (d.toDateString() === new Date().toDateString()) return `hoy a las ${h}`;
+  return `el ${d.toLocaleDateString('es-CR', {day: 'numeric', month: 'short'})} a las ${h}`;
+}
+/* "carlos" o "carlos@mejenga.app" → siempre "carlos" */
+const normalizarUsuario = u => String(u || '').trim().toLowerCase().replace(/@mejenga\.app$/, '');
+const emailDe = u => { const x = String(u || '').trim().toLowerCase(); return x.includes('@') ? x : x + DOMINIO; };
 
 /* Estado de una mejenga según la hora actual:
-   abierta → se puede anotar | cerrada → cerrada por el árbitro
+   programada → aún no se publica | abierta → se puede anotar | cerrada → cerrada por el árbitro
    en_juego → ya empezó (la lista se cerró sola) | terminada → ya acabó */
 function estadoDe(m){
   const ahora = Date.now(), ini = new Date(m.fecha).getTime();
   const fin = m.fin ? new Date(m.fin).getTime() : ini + HORA;
+  const pub = m.publica ? new Date(m.publica).getTime() : 0;
   if (ahora >= fin) return 'terminada';
+  if (ahora < pub) return 'programada';
   if (ahora >= ini) return 'en_juego';
   if (!m.abierta) return 'cerrada';
   return 'abierta';
 }
+const VISIBLES_JUGADOR = ['abierta', 'cerrada', 'en_juego'];
 
 function dividir(m){
   const lista = anotados.filter(a => a.mejenga_id === m.id);
@@ -295,8 +433,8 @@ function toast(msg, tipo = ''){
   const t = document.createElement('div');
   t.className = 'toast ' + tipo; t.textContent = msg;
   $('#toasts').appendChild(t);
-  setTimeout(() => t.classList.add('sale'), 3200);
-  setTimeout(() => t.remove(), 3700);
+  setTimeout(() => t.classList.add('sale'), tipo === 'error' ? 5200 : 3200);
+  setTimeout(() => t.remove(), tipo === 'error' ? 5700 : 3700);
 }
 function fx(html, ms){
   const d = document.createElement('div'); d.className = 'fx-item'; d.innerHTML = html;
@@ -338,6 +476,25 @@ function confirmar({icono = '🟥', titulo, texto, si, no = 'Cancelar'}){
     document.addEventListener('keydown', tecla);
     $('#modal-no').focus();
   });
+}
+
+/* ---------- selector de hora en formato 12 horas (hora, minutos, AM/PM) ---------- */
+function horaSel(pref, v24, requerido = true){
+  let h12 = '', min = 0, ampm = 'PM';
+  if (v24){ const [H, M] = v24.split(':').map(Number); ampm = H >= 12 ? 'PM' : 'AM'; h12 = (H % 12) || 12; min = M; }
+  const mins = []; for (let i = 0; i < 60; i += 5) mins.push(i);
+  if (!mins.includes(min)){ mins.push(min); mins.sort((a, b) => a - b); }
+  return `<span class="hora12">
+    <select name="${pref}_h" aria-label="Hora" ${requerido ? 'required' : ''}>${v24 ? '' : '<option value="" selected disabled>Hora</option>'}${Array.from({length: 12}, (_, i) => i + 1).map(h => `<option value="${h}" ${h === h12 ? 'selected' : ''}>${h}</option>`).join('')}</select>
+    <b>:</b>
+    <select name="${pref}_m" aria-label="Minutos">${mins.map(m => `<option value="${m}" ${m === min ? 'selected' : ''}>${pad(m)}</option>`).join('')}</select>
+    <select name="${pref}_p" aria-label="AM o PM"><option value="AM" ${ampm === 'AM' ? 'selected' : ''}>AM</option><option value="PM" ${ampm === 'PM' ? 'selected' : ''}>PM</option></select>
+  </span>`;
+}
+function leer24(fd, pref){
+  const h = Number(fd.get(pref + '_h')); if (!h) return null;
+  const m = Number(fd.get(pref + '_m') || 0), p = fd.get(pref + '_p');
+  return `${pad((h % 12) + (p === 'PM' ? 12 : 0))}:${pad(m)}`;
 }
 
 /* ---------- exportar listas ---------- */
@@ -388,30 +545,43 @@ function manejarExportar(e){
 
 /* ---------- carga de datos ---------- */
 async function cargar(){
-  const [m, a] = await Promise.all([
+  const pedidos = [
     sb.from('mejengas').select('*').order('fecha', {ascending: true}),
-    sb.from('anotados').select('id,mejenga_id,nombre,creado').order('creado', {ascending: true})
-  ]);
+    sb.from('anotados').select('id,mejenga_id,nombre,creado').order('creado', {ascending: true}),
+    sb.rpc('mis_anotados', {p_token: TOKEN})
+  ];
+  if (esAdmin) pedidos.push(sb.from('bajas').select('*').order('quitado_en', {ascending: true}));
+  const [m, a, mi, b] = await Promise.all(pedidos);
   if (m.error || a.error) { toast('No se pudo cargar la lista. Revisa tu conexión.', 'error'); return; }
   mejengas = m.data; anotados = a.data;
+  bajas = (b && !b.error && Array.isArray(b.data)) ? b.data : [];
+
+  // Tus anotaciones las dice el servidor según el código de tu dispositivo (no depende solo de lo guardado en el navegador)
   const ids = new Set(anotados.map(x => x.id));
-  mios = new Set([...mios].filter(id => ids.has(id))); guardarMios();
+  if (mi && !mi.error && Array.isArray(mi.data)){
+    mios = new Set(mi.data.map(x => (typeof x === 'string' ? x : Object.values(x)[0])).filter(id => ids.has(id)));
+  } else {
+    mios = new Set([...mios].filter(id => ids.has(id)));
+  }
+  guardarMios();
+  for (const id of Object.keys(codigos)) if (!ids.has(id)) delete codigos[id];
+  guardarCodigos();
+
   cargado = true;
   pintarJugador();
-  actualizarListasAdmin();
+  refrescarAdmin();
 }
 
 /* ---------- vista del jugador ---------- */
 function textoEstado(m, esp, libres){
   const e = estadoDe(m);
-  if (e === 'terminada') return '⏱️ Esta mejenga ya terminó';
   if (e === 'en_juego') return '⚽ ¡Mejenga en juego! La lista se cerró al empezar';
   if (e === 'cerrada') return '🔒 Lista cerrada por el árbitro';
   if (libres > 0) return `Faltan <b>${libres}</b> ${libres === 1 ? 'cupo' : 'cupos'}`;
   return `🏁 Cupo completo${esp.length ? ' · ' + esp.length + ' en espera' : ''}`;
 }
 
-function pintarJugador(){
+function pintarJugador(forzar){
   const cont = $('#vista-jugador');
   if (!configurado){
     cont.innerHTML = `<div class="aviso"><div style="font-size:48px">🛠️</div><h2>Falta configurar</h2><p>Abre <b>public/config.js</b> y pega tu URL y tu clave pública de Supabase (la que empieza con <b>sb_publishable_</b>).</p></div>`;
@@ -419,8 +589,15 @@ function pintarJugador(){
   }
   if (!cargado) return;
 
-  // los jugadores solo ven las mejengas que todavía no terminan
-  const visibles = mejengas.filter(m => estadoDe(m) !== 'terminada');
+  // Solo se vuelve a dibujar si algo cambió de verdad (así un toque en 🟥 nunca se pierde por un redibujado)
+  const firma = JSON.stringify([esAdmin, [...mios], codigos,
+    mejengas.map(m => [m.id, m.titulo, m.lugar, m.fecha, m.fin, m.capacidad, m.abierta, m.publica, estadoDe(m)]),
+    anotados.map(a => [a.id, a.mejenga_id, a.nombre])]);
+  if (!forzar && primerPintado && firma === firmaJugador) return;
+  firmaJugador = firma;
+
+  // los jugadores solo ven las mejengas publicadas que todavía no terminan
+  const visibles = mejengas.filter(m => VISIBLES_JUGADOR.includes(estadoDe(m)));
   const {info, pos} = agrupar();
   const animar = primerPintado;
 
@@ -443,18 +620,23 @@ function pintarJugador(){
   const nuevo = id => animar && !posPrev.has(id);
 
   if (!visibles.length){
-    cont.innerHTML = `<div class="panel vacio"><div style="font-size:54px">🏟️</div><h2>No hay mejengas programadas</h2><p>Cuando el árbitro cree una, aparecerá aquí.</p></div>`;
+    cont.innerHTML = `<div class="panel vacio"><div style="font-size:54px">🏟️</div><h2>No hay mejengas programadas</h2><p>Cuando el árbitro publique una, aparecerá aquí.</p></div>`;
   } else {
     cont.innerHTML = visibles.map(m => {
-      const {tit, esp} = info[m.id];
+      const {lista, tit, esp} = info[m.id];
       const cap = m.capacidad, libres = Math.max(0, cap - tit.length);
       const e = estadoDe(m);
       const bloquear = e !== 'abierta';
       const pct = Math.min(100, Math.round(tit.length / cap * 100));
 
+      // ¿ya estás anotado en esta mejenga? (el árbitro puede anotar a más gente, así que a él no se le limita)
+      const mia = esAdmin ? null : lista.find(a => mios.has(a.id));
+      const idxMia = mia ? lista.indexOf(mia) : -1;
+      const puesto = idxMia < 0 ? '' : (idxMia < cap ? `titular #${idxMia + 1}` : `banca ${idxMia - cap + 1}º`);
+
       const titulares = tit.map((a, i) => {
         const mio = mios.has(a.id);
-        const quitar = (mio || esAdmin) ? `<button class="quitar" data-quitar="${a.id}" title="Quitar de la lista">🟥</button>` : '';
+        const quitar = (mio || esAdmin) ? `<button class="quitar" data-quitar="${a.id}" title="Quitar de la lista" aria-label="Quitar a ${esc(a.nombre)}">🟥</button>` : '';
         return `<li class="jugador ${mio ? 'mio' : ''} ${nuevo(a.id) ? 'nuevo' : ''} ${sube.has(a.id) ? 'sube' : ''}">${camiseta(i + 1)}<span class="nom">${esc(a.nombre)}</span>${quitar}</li>`;
       }).join('');
       const libresHtml = Array.from({length: libres}, () => `<li class="jugador libre">${camiseta('')}<span class="nom">libre</span></li>`).join('');
@@ -463,11 +645,27 @@ function pintarJugador(){
       if (esp.length){
         banca = `<h3>🟨 La banca (lista de espera)</h3><ol class="banca">${esp.map((a, i) => {
           const mio = mios.has(a.id);
-          const quitar = (mio || esAdmin) ? `<button class="quitar" data-quitar="${a.id}" title="Quitar de la lista">🟥</button>` : '';
+          const quitar = (mio || esAdmin) ? `<button class="quitar" data-quitar="${a.id}" title="Quitar de la lista" aria-label="Quitar a ${esc(a.nombre)}">🟥</button>` : '';
           return `<li class="suplente ${mio ? 'mio' : ''} ${nuevo(a.id) ? 'nuevo' : ''}"><span class="pos">${i + 1}º</span><span class="nom">${esc(a.nombre)}</span>${quitar}</li>`;
         }).join('')}</ol>`;
       } else if (libres === 0){
         banca = `<h3>🟨 La banca (lista de espera)</h3><p class="banca-vacia">La banca está vacía. Quien se anote ahora quedará aquí, en orden, y entra al campo si alguien se quita.</p>`;
+      }
+
+      let zonaAnotar;
+      if (mia){
+        const cod = codigos[mia.id];
+        zonaAnotar = `<div class="mi-anotacion">
+          <p>✅ Estás anotado como <b>${esc(mia.nombre)}</b> · ${esc(puesto)}</p>
+          ${cod ? `<p class="peq">🔑 Tu código de salida: <b class="codigo">${esc(cod)}</b><br>Guárdalo por si cambias de celular o navegador.</p>` : ''}
+          <div class="acciones"><button class="btn peligro chico" type="button" data-quitar="${mia.id}">🟥 Salirme de la lista</button></div>
+        </div>`;
+      } else {
+        zonaAnotar = `<form class="anotar" data-anotar="${m.id}">
+          <input data-nombre="${m.id}" maxlength="40" placeholder="Tu nombre" autocomplete="name" ${bloquear ? 'disabled' : ''}>
+          <button class="btn" ${bloquear ? 'disabled' : ''}>⚽ Anotarme</button>
+        </form>
+        ${esAdmin ? '' : `<button class="link" type="button" data-codigo-abrir="${m.id}">¿Ya te anotaste desde otro celular o navegador? Salir con mi código</button>`}`;
       }
 
       return `<article class="cancha-card ${e === 'cerrada' ? 'cerrada' : ''} ${e === 'en_juego' ? 'juego' : ''}">
@@ -478,10 +676,7 @@ function pintarJugador(){
         <div class="barra"><i style="width:${pct}%"></i></div>
         <p class="estado">${textoEstado(m, esp, libres)}</p>
         ${e === 'abierta' ? `<p class="cierre">⏰ La lista se cierra sola a las ${esc(horaBonita(m.fecha))}</p>` : ''}
-        <form class="anotar" data-anotar="${m.id}">
-          <input data-nombre="${m.id}" maxlength="40" placeholder="Tu nombre" autocomplete="name" ${bloquear ? 'disabled' : ''}>
-          <button class="btn" ${bloquear ? 'disabled' : ''}>⚽ Anotarme</button>
-        </form>
+        ${zonaAnotar}
         <h3>🥅 Titulares</h3>
         <ul class="equipo">${titulares}${libresHtml}</ul>
         ${banca}
@@ -506,35 +701,68 @@ function pintarJugador(){
   primerPintado = true;
 }
 
-/* quitar a alguien de la lista (con confirmación) */
+/* quitar a alguien de la lista (siempre con confirmación) */
+let quitando = false;
 async function quitarAnotado(id){
+  if (quitando) return;
   const a = anotados.find(x => x.id === id); if (!a) return;
   const m = mejengas.find(x => x.id === a.mejenga_id);
-  const propio = mios.has(id);
-  const ok = await confirmar({
-    icono: '🟥',
-    titulo: propio ? 'Te vas a salir de la mejenga' : `Vas a sacar a ${a.nombre}`,
-    texto: propio
-      ? `Se quitará tu nombre (${a.nombre}) de "${m ? m.titulo : 'la mejenga'}" y tu lugar pasará al siguiente. ¿Seguro?`
-      : `Se quitará a ${a.nombre} de "${m ? m.titulo : 'la mejenga'}". ¿Seguro?`,
-    si: propio ? '🟥 Sí, salirme' : '🟥 Sí, sacarlo',
-    no: propio ? 'Mejor me quedo' : 'Cancelar'
-  });
-  if (!ok) return;
+  const propio = mios.has(id) && !esAdmin;
+  quitando = true;
+  try {
+    const ok = await confirmar({
+      icono: '🟥',
+      titulo: propio ? 'Te vas a salir de la mejenga' : `Vas a sacar a ${a.nombre}`,
+      texto: propio
+        ? `Se quitará tu nombre (${a.nombre}) de "${m ? m.titulo : 'la mejenga'}" y tu lugar pasará al siguiente. ¿Seguro?`
+        : `Se quitará a ${a.nombre} de "${m ? m.titulo : 'la mejenga'}". ¿Seguro?`,
+      si: propio ? '🟥 Sí, salirme' : '🟥 Sí, sacarlo',
+      no: propio ? 'Mejor me quedo' : 'Cancelar'
+    });
+    if (!ok) return;
 
-  let quitado = false;
-  if (esAdmin){
-    const {data, error} = await sb.from('anotados').delete().eq('id', id).select();
-    quitado = !error && !!data && data.length > 0;
-  } else {
-    const {data, error} = await sb.rpc('quitarme', {p_id: id, p_token: TOKEN});
-    quitado = !error && data === true;
-  }
-  if (!quitado) { toast('No se pudo quitar. Intenta de nuevo.', 'error'); return; }
-  mios.delete(id); guardarMios();
-  tarjetaRoja(); toast(`🟥 ${a.nombre} sale de la lista`);
-  await cargar();
+    let quitado = false;
+    if (esAdmin){
+      const {data, error} = await sb.from('anotados').delete().eq('id', id).select();
+      quitado = !error && !!data && data.length > 0;
+    } else {
+      const {data, error} = await sb.rpc('quitarme', {p_id: id, p_token: TOKEN});
+      quitado = !error && data === true;
+    }
+    if (!quitado){
+      toast(esAdmin
+        ? 'No se pudo quitar. Intenta de nuevo.'
+        : 'No se pudo salir de la lista. Si te anotaste desde otro celular o navegador, usa «Salir con mi código» o pídele al árbitro que te quite.', 'error');
+      await cargar();
+      return;
+    }
+    mios.delete(id); delete codigos[id]; guardarMios(); guardarCodigos();
+    tarjetaRoja(); toast(`🟥 ${a.nombre} sale de la lista`);
+    await cargar();
+  } finally { quitando = false; }
 }
+
+/* salir de la lista con el código de salida */
+let codMejenga = null;
+function abrirCodigo(id){
+  codMejenga = id;
+  const f = $('#f-cod'); f.reset();
+  f.elements.nombre.value = ls.get('mejenga_nombre') || '';
+  $('#modal-cod').hidden = false;
+  (f.elements.nombre.value ? f.elements.codigo : f.elements.nombre).focus();
+}
+function cerrarCodigo(){ $('#modal-cod').hidden = true; codMejenga = null; }
+$('#cod-cancelar').addEventListener('click', cerrarCodigo);
+$('#modal-cod').addEventListener('click', e => { if (e.target.id === 'modal-cod') cerrarCodigo(); });
+$('#f-cod').addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, nombre = f.elements.nombre.value.trim(), codigo = f.elements.codigo.value.trim();
+  if (!codMejenga || !nombre || !/^[0-9]{4,8}$/.test(codigo)){ toast('Escribe tu nombre y tu código (solo números).', 'error'); return; }
+  const {data, error} = await sb.rpc('quitar_con_codigo', {p_mejenga: codMejenga, p_nombre: nombre, p_codigo: codigo});
+  if (error || data !== true){ toast('El nombre y el código no coinciden. Revísalos o pídele al árbitro que te quite.', 'error'); return; }
+  cerrarCodigo(); tarjetaRoja(); toast(`🟥 ${nombre} sale de la lista`);
+  await cargar();
+});
 
 /* eventos de la vista del jugador */
 $('#vista-jugador').addEventListener('submit', async e => {
@@ -543,10 +771,17 @@ $('#vista-jugador').addEventListener('submit', async e => {
   const id = f.dataset.anotar, input = f.querySelector('input'), nombre = input.value.trim();
   if (!nombre) { input.focus(); return; }
   const btn = f.querySelector('button'); btn.disabled = true;
-  const {data, error} = await sb.rpc('anotarse', {p_mejenga: id, p_nombre: nombre, p_token: TOKEN});
+  // código de salida: 6 números que se muestran al jugador por si cambia de navegador
+  const codigo = String(crypto.getRandomValues(new Uint32Array(1))[0] % 1000000).padStart(6, '0');
+  const {data, error} = await sb.rpc('anotarse', {p_mejenga: id, p_nombre: nombre, p_token: TOKEN, p_codigo: codigo});
   btn.disabled = false;
-  if (error) { toast(msgError(error), 'error'); if ((error.message || '').includes('MEJENGA_CERRADA')) await cargar(); return; }
-  mios.add(data); guardarMios(); ls.set('mejenga_nombre', nombre); input.value = '';
+  if (error){
+    toast(msgError(error), 'error');
+    if (/MEJENGA_CERRADA|LIMITE_DISPOSITIVO|MEJENGA_NO_EXISTE/.test(error.message || '')) await cargar();
+    return;
+  }
+  mios.add(data); guardarMios(); codigos[data] = codigo; guardarCodigos();
+  ls.set('mejenga_nombre', nombre); input.value = '';
   await cargar();
   const m = mejengas.find(x => x.id === id);
   const lista = anotados.filter(a => a.mejenga_id === id);
@@ -559,77 +794,154 @@ $('#vista-jugador').addEventListener('submit', async e => {
 
 $('#vista-jugador').addEventListener('click', e => {
   if (manejarExportar(e)) return;
+  const c = e.target.closest('[data-codigo-abrir]');
+  if (c){ abrirCodigo(c.dataset.codigoAbrir); return; }
   const b = e.target.closest('[data-quitar]');
   if (b) quitarAnotado(b.dataset.quitar);
 });
 
 /* ---------- vista del árbitro ---------- */
-const usuarioActual = () => session && session.user.email ? session.user.email.replace(DOMINIO, '') : '';
+const usuarioActual = () => session && session.user && session.user.email ? normalizarUsuario(session.user.email) : '';
 
-function htmlListaAdmin(m){
+function htmlBajas(m){
+  const lista = bajas.filter(b => b.mejenga_id === m.id).sort((a, b) => new Date(a.quitado_en) - new Date(b.quitado_en));
+  if (!lista.length) return `<h4>🟥 Bajas</h4><p class="peq">Nadie se ha quitado de esta lista.</p>`;
+  return `<h4>🟥 Bajas (${lista.length})</h4><ol class="bajas">${lista.map(b => `<li>
+    <span class="nombre">${esc(b.nombre)}</span><span class="cuando">se quitó ${esc(cuando(b.quitado_en))}</span>
+    <span class="quien">${b.quitado_por === 'arbitro' ? 'Lo quitó el árbitro' : 'Se quitó solo'}${b.puesto ? ` · tenía el puesto ${b.puesto}` : ''}</span></li>`).join('')}</ol>`;
+}
+function htmlListaAdmin(m, soloLectura){
   const {tit, esp} = dividir(m);
-  const fila = (a, i, clase) => `<li class="${clase}"><span class="pos">${i + 1}</span><span class="nombre">${esc(a.nombre)}</span><span class="hora">${esc(new Date(a.creado).toLocaleTimeString('es-CR', {hour: 'numeric', minute: '2-digit', second: '2-digit'}))}</span><button type="button" class="quitar" data-quitar="${a.id}" title="Quitar de la lista">🟥</button></li>`;
+  const fila = (a, i, clase) => `<li class="${clase}"><span class="pos">${i + 1}</span><span class="nombre">${esc(a.nombre)}</span><span class="hora">anotado ${esc(horaBonita(a.creado))}</span>${soloLectura ? '' : `<button type="button" class="quitar" data-quitar="${a.id}" title="Quitar de la lista" aria-label="Quitar a ${esc(a.nombre)}">🟥</button>`}</li>`;
   let h = `<h4>🥅 Titulares (${tit.length}/${m.capacidad})</h4>`;
-  h += tit.length ? `<ol>${tit.map((a, i) => fila(a, i, 'titular')).join('')}</ol>` : `<p class="peq">Nadie anotado todavía.</p>`;
+  h += tit.length ? `<ol>${tit.map((a, i) => fila(a, i, 'titular')).join('')}</ol>` : `<p class="peq">Nadie anotado.</p>`;
   if (esp.length) h += `<h4>🟨 Banca (${esp.length})</h4><ol>${esp.map((a, i) => fila(a, i, 'espera')).join('')}</ol>`;
-  return h;
+  return h + htmlBajas(m);
+}
+const firmaLista = (m, lectura) => JSON.stringify([dividir(m).lista.map(a => [a.id, a.nombre]), bajas.filter(b => b.mejenga_id === m.id).map(b => b.id), m.capacidad, lectura]);
+
+const ETIQUETAS = {programada: '🕒 programada', abierta: '🟢 abierta', cerrada: '🔒 cerrada', en_juego: '⚽ en juego', terminada: '🏁 terminada'};
+
+function bloqueAcciones(m, extra = ''){
+  return `<div class="acciones">${extra}
+    <button class="btn sec chico" type="button" data-anuncio="${m.id}">📲 Copiar mensaje</button>
+    <button class="btn sec chico" type="button" data-copiar-lista="${m.id}">📋 Copiar lista</button>
+    <button class="btn sec chico" type="button" data-descargar-lista="${m.id}">⬇️ Descargar</button>
+    <button class="btn peligro chico" type="button" data-borrar="${m.id}">🗑️ Eliminar</button></div>`;
 }
 
-/* refresca solo las listas de anotados del panel, sin tocar los formularios */
-function actualizarListasAdmin(){
-  if (!esAdmin || $('#vista-admin').hidden) return;
-  mejengas.forEach(m => {
-    const cont = document.querySelector(`[data-lista="${m.id}"]`); if (!cont) return;
-    cont.innerHTML = htmlListaAdmin(m);
-    const c = document.querySelector(`[data-cuenta="${m.id}"]`);
-    if (c) c.textContent = dividir(m).lista.length;
-  });
+function tarjetaActiva(m){
+  const e = estadoDe(m);
+  const puedeAlternar = e === 'abierta' || e === 'cerrada';
+  const prog = e === 'programada';
+  const pubBloque = prog ? `
+    <fieldset class="pub"><legend>Publicación</legend>
+      <p class="peq" style="margin:0 0 4px">Aún nadie la ve. Se publicará ${esc(cuando(m.publica).replace(/^el /, 'el '))}.</p>
+      <div class="grid2">
+        <label>Fecha de publicación<input name="pub_fecha" type="date" min="${hoyLocal()}" value="${fechaLocal(m.publica)}"></label>
+        <label>Hora de publicación${horaSel('pub', horaLocal(m.publica), false)}</label>
+      </div>
+    </fieldset>` : '';
+  const extra = `${puedeAlternar ? `<button class="btn sec chico" type="button" data-toggle="${m.id}">${m.abierta ? '🔒 Cerrar lista' : '🟢 Abrir lista'}</button>` : ''}
+    ${prog ? `<button class="btn chico" type="button" data-publicar-ya="${m.id}">🚀 Publicar ahora</button>` : ''}`;
+  return `<section class="panel edit">
+    <div class="fila"><h3>${esc(m.titulo)}</h3><span class="etiqueta ${prog ? 'prog' : ''}">${ETIQUETAS[e]}</span></div>
+    <p class="peq" style="margin:0 0 6px">📅 ${esc(rango(m))}</p>
+    <form data-editar="${m.id}">
+      <div class="grid2">
+        <label>Título<input name="titulo" maxlength="80" value="${esc(m.titulo)}" required></label>
+        <label>Lugar<input name="lugar" maxlength="80" value="${esc(m.lugar)}" required></label>
+        <label>Fecha<input name="fecha" type="date" value="${fechaLocal(m.fecha)}" required></label>
+        <label>Cupos máximos<input name="capacidad" type="number" min="2" max="50" value="${m.capacidad}" required></label>
+        <label>Hora de inicio${horaSel('inicio', horaLocal(m.fecha))}</label>
+        <label>Hora de fin${horaSel('fin', horaLocal(m.fin))}</label>
+      </div>
+      ${pubBloque}
+      <div class="acciones"><button class="btn">💾 Guardar cambios</button></div>
+    </form>
+    ${bloqueAcciones(m, extra)}
+    <details class="detalle">
+      <summary>👥 Ver anotados (<span data-cuenta="${m.id}">${dividir(m).lista.length}</span>)</summary>
+      <div class="lista-admin" data-lista="${m.id}" data-firma="${esc(firmaLista(m, false))}">${htmlListaAdmin(m, false)}</div>
+    </details>
+  </section>`;
 }
 
-function pintarAdmin(){
-  const c = $('#vista-admin');
-  if (!configurado){ c.innerHTML = `<div class="aviso">Primero configura Supabase en <b>public/config.js</b>.</div>`; return; }
-  if (!esAdmin){
-    c.innerHTML = `<form class="panel" id="f-login">
-      <h2>🟨 Zona del árbitro</h2><p class="peq">Solo para quien organiza las mejengas. Los jugadores no necesitan entrar aquí.</p>
-      <label>Usuario<input name="u" autocomplete="username" autocapitalize="none" required></label>
-      <label>Contraseña<input name="p" type="password" autocomplete="current-password" required></label>
-      <div class="acciones"><button class="btn">Entrar</button></div></form>`;
-    return;
-  }
-  const etiquetas = {abierta: '🟢 abierta', cerrada: '🔒 cerrada', en_juego: '⚽ en juego', terminada: '⏱️ terminada'};
-  const lista = mejengas.slice().sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(m => {
-    const e = estadoDe(m);
-    const puedeAlternar = e === 'abierta' || e === 'cerrada';
-    return `<section class="panel edit ${e === 'terminada' ? 'pasada' : ''}">
-      <div class="fila"><h3>${esc(m.titulo)}</h3><span class="peq">${etiquetas[e]}</span></div>
-      <p class="peq" style="margin:0 0 6px">📅 ${esc(rango(m))}</p>
-      <form data-editar="${m.id}">
-        <div class="grid2">
-          <label>Título<input name="titulo" maxlength="80" value="${esc(m.titulo)}" required></label>
-          <label>Lugar<input name="lugar" maxlength="80" value="${esc(m.lugar)}" required></label>
-          <label>Fecha<input name="fecha" type="date" value="${fechaLocal(m.fecha)}" required></label>
-          <label>Cupos máximos<input name="capacidad" type="number" min="2" max="50" value="${m.capacidad}" required></label>
-          <label>Hora de inicio<input name="inicio" type="time" value="${horaLocal(m.fecha)}" required></label>
-          <label>Hora de fin<input name="fin" type="time" value="${horaLocal(m.fin)}" required></label>
-        </div>
-        <div class="acciones"><button class="btn">💾 Guardar cambios</button></div>
-      </form>
-      <div class="acciones">
-        ${puedeAlternar ? `<button class="btn sec chico" type="button" data-toggle="${m.id}">${m.abierta ? '🔒 Cerrar lista' : '🟢 Abrir lista'}</button>` : ''}
-        <button class="btn sec chico" type="button" data-anuncio="${m.id}">📲 Copiar mensaje</button>
+function tarjetaTerminada(m){
+  return `<details class="panel terminada">
+    <summary><span class="t-titulo">${esc(m.titulo)}</span><span class="t-info">🏁 ${esc(rango(m))} · <span data-cuenta="${m.id}">${dividir(m).lista.length}</span> anotados</span></summary>
+    <div class="t-cuerpo">
+      <p class="peq" style="margin:0 0 8px">📍 ${esc(m.lugar)} · 👥 ${m.capacidad} cupos · Esta mejenga terminó, ya no se puede modificar.</p>
+      <div class="lista-admin" data-lista="${m.id}" data-firma="${esc(firmaLista(m, true))}">${htmlListaAdmin(m, true)}</div>
+      <div class="exportar">
         <button class="btn sec chico" type="button" data-copiar-lista="${m.id}">📋 Copiar lista</button>
         <button class="btn sec chico" type="button" data-descargar-lista="${m.id}">⬇️ Descargar</button>
         <button class="btn peligro chico" type="button" data-borrar="${m.id}">🗑️ Eliminar</button>
       </div>
-      <details class="detalle">
-        <summary>👥 Ver anotados (<span data-cuenta="${m.id}">${dividir(m).lista.length}</span>)</summary>
-        <div class="lista-admin" data-lista="${m.id}">${htmlListaAdmin(m)}</div>
-      </details>
-    </section>`;
-  }).join('');
+    </div>
+  </details>`;
+}
 
-  c.innerHTML = `
+/* pasador: con 3 o más mejengas se muestra una a la vez, con números abajo (sin cambiar de pestaña) */
+function pasador(nombre, items){
+  if (items.length < 3) return items.join('');
+  const p = Math.min(paginas[nombre] || 0, items.length - 1);
+  const nums = items.map((_, i) => `<button type="button" class="pag ${i === p ? 'activa' : ''}" data-pag="${i}" aria-label="Ver la mejenga ${i + 1} de ${items.length}">${i + 1}</button>`).join('');
+  return `<div class="pasador" data-pasador="${nombre}">
+    <div class="pasador-ventana">${items.map((h, i) => `<div class="pasador-pagina ${i === p ? 'anim' : ''}" ${i === p ? '' : 'hidden'}>${h}</div>`).join('')}</div>
+    <div class="pasador-nav">
+      <button type="button" class="pag flecha" data-pag-prev aria-label="Anterior" ${p === 0 ? 'disabled' : ''}>‹</button>${nums}
+      <button type="button" class="pag flecha" data-pag-next aria-label="Siguiente" ${p === items.length - 1 ? 'disabled' : ''}>›</button>
+    </div>
+    <p class="peq centro">Desliza o usa los números para ver las demás</p>
+  </div>`;
+}
+function irPagina(cont, i){
+  const pags = cont.querySelectorAll('.pasador-pagina'); if (!pags.length) return;
+  i = Math.max(0, Math.min(pags.length - 1, i));
+  pags.forEach((p, k) => {
+    p.hidden = k !== i; p.classList.remove('anim');
+    if (k === i){ void p.offsetWidth; p.classList.add('anim'); }
+  });
+  cont.querySelectorAll('button.pag[data-pag]').forEach(b => b.classList.toggle('activa', Number(b.dataset.pag) === i));
+  const prev = cont.querySelector('[data-pag-prev]'), next = cont.querySelector('[data-pag-next]');
+  if (prev) prev.disabled = i === 0;
+  if (next) next.disabled = i === pags.length - 1;
+  paginas[cont.dataset.pasador] = i;
+}
+
+const firmaMejengas = () => JSON.stringify(mejengas.map(m => [m.id, m.titulo, m.lugar, m.fecha, m.fin, m.capacidad, m.abierta, m.publica, estadoDe(m)]));
+
+function pintarAdminListas(){
+  const cont = $('#adm-listas'); if (!cont) return;
+  const activas = mejengas.filter(m => estadoDe(m) !== 'terminada').sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+  const terminadas = mejengas.filter(m => estadoDe(m) === 'terminada').sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+  cont.innerHTML = `
+    <h3 style="margin-left:4px">📋 Mejengas activas <span class="contador">${activas.length}</span></h3>
+    ${activas.length ? pasador('activas', activas.map(tarjetaActiva)) : '<div class="panel peq">No hay mejengas activas. Crea una arriba.</div>'}
+    <h3 style="margin-left:4px">🏁 Mejengas terminadas <span class="contador">${terminadas.length}</span></h3>
+    ${terminadas.length ? pasador('terminadas', terminadas.map(tarjetaTerminada)) : '<div class="panel peq">Todavía no hay mejengas terminadas.</div>'}`;
+  firmaAdmin = firmaMejengas();
+}
+
+/* refresca solo las listas de anotados que cambiaron, sin tocar los formularios */
+function actualizarListasAdmin(){
+  mejengas.forEach(m => {
+    const cont = document.querySelector(`[data-lista="${m.id}"]`); if (!cont) return;
+    const lectura = estadoDe(m) === 'terminada', f = firmaLista(m, lectura);
+    if (cont.dataset.firma === f) return;
+    cont.dataset.firma = f;
+    cont.innerHTML = htmlListaAdmin(m, lectura);
+    document.querySelectorAll(`[data-cuenta="${m.id}"]`).forEach(c => c.textContent = dividir(m).lista.length);
+  });
+}
+function refrescarAdmin(){
+  if (!esAdmin || adminShell !== 'panel') return;
+  if (firmaMejengas() !== firmaAdmin) pintarAdminListas(); else actualizarListasAdmin();
+}
+
+function construirPanelAdmin(){
+  $('#vista-admin').innerHTML = `
     <div class="panel"><div class="fila"><div><h2>🟨 Panel del árbitro</h2><p class="peq">Sesión: <b>${esc(usuarioActual())}</b>. Desde la pestaña Jugador también puedes anotarte y quitar gente.</p></div>
       <button class="btn sec" id="salir">Cerrar sesión</button></div></div>
 
@@ -640,31 +952,73 @@ function pintarAdmin(){
         <label>Lugar<input name="lugar" maxlength="80" placeholder="Ej: Cancha Los Ángeles" required></label>
         <label>Fecha<input name="fecha" type="date" min="${hoyLocal()}" required></label>
         <label>Cupos máximos<input name="capacidad" type="number" min="2" max="50" value="14" required></label>
-        <label>Hora de inicio<input name="inicio" type="time" required></label>
-        <label>Hora de fin<input name="fin" type="time" required></label>
+        <label>Hora de inicio${horaSel('inicio', '')}</label>
+        <label>Hora de fin${horaSel('fin', '')}</label>
       </div>
       <p class="peq">La lista se cierra sola a la hora de inicio. Si la hora de fin es menor que la de inicio, cuenta como el día siguiente.</p>
+      <fieldset class="pub"><legend>Publicación</legend>
+        <label class="opcion"><input type="radio" name="pub" value="ahora" checked> Publicarla ya</label>
+        <label class="opcion"><input type="radio" name="pub" value="programada"> Programar la publicación</label>
+        <div class="pub-prog" hidden>
+          <div class="grid2">
+            <label>Fecha de publicación<input name="pub_fecha" type="date" min="${hoyLocal()}"></label>
+            <label>Hora de publicación${horaSel('pub', '', false)}</label>
+          </div>
+          <p class="peq">Hasta esa hora, los jugadores no ven la mejenga. Debe ser antes de que empiece.</p>
+        </div>
+      </fieldset>
       <div class="acciones"><button class="btn">⚽ Crear mejenga</button></div>
     </form>
 
-    <h3 style="margin-left:4px">📋 Mis mejengas</h3>
-    ${lista || '<div class="panel peq">Aún no has creado ninguna.</div>'}
+    <div id="adm-listas"></div>
+
+    <form class="panel" id="f-perfil">
+      <h2>👤 Mi perfil</h2>
+      <p class="peq">Cambia tu usuario o tu contraseña. Debes escribir tu contraseña actual para confirmar. Después tendrás que entrar de nuevo.</p>
+      <div class="grid2">
+        <label>Mi usuario (sin @)<input name="usuario" value="${esc(usuarioActual())}" autocapitalize="none" autocomplete="off" required></label>
+        <label>Contraseña actual<input name="actual" type="password" autocomplete="current-password" required></label>
+        <label>Nueva contraseña (opcional, mín. 8)<input name="nueva" type="password" minlength="8" autocomplete="new-password"></label>
+      </div>
+      <div class="acciones"><button class="btn">💾 Guardar mi perfil</button></div>
+    </form>
 
     <form class="panel" id="f-admin">
       <h2>🧑‍⚖️ Agregar otro árbitro</h2>
       <p class="peq">Crea un usuario y una contraseña y entrégaselos a la persona. Podrá crear y administrar mejengas.</p>
       <div class="grid2">
-        <label>Usuario<input name="u" autocapitalize="none" placeholder="ej: carlos" required></label>
-        <label>Contraseña (mín. 8)<input name="p" id="pass-nueva" minlength="8" required></label>
+        <label>Usuario (solo el nombre, sin @)<input name="u" autocapitalize="none" placeholder="ej: carlos" autocomplete="off" required></label>
+        <label>Contraseña (mín. 8)<input name="p" id="pass-nueva" minlength="8" autocomplete="off" required></label>
       </div>
       <div class="acciones"><button class="btn">Crear árbitro</button><button class="btn sec" type="button" id="generar">🎲 Generar contraseña</button></div>
       <div id="credenciales"></div>
     </form>`;
 }
 
+function pintarAdmin(){
+  const c = $('#vista-admin');
+  if (!configurado){ c.innerHTML = `<div class="aviso">Primero configura Supabase en <b>public/config.js</b>.</div>`; adminShell = null; return; }
+  const deseado = esAdmin ? 'panel' : 'login';
+  if (adminShell !== deseado){
+    adminShell = deseado;
+    if (!esAdmin){
+      c.innerHTML = `<form class="panel" id="f-login">
+        <h2>🟨 Zona del árbitro</h2><p class="peq">Solo para quien organiza las mejengas. Los jugadores no necesitan entrar aquí.</p>
+        <label>Usuario (sin @)<input name="u" autocomplete="username" autocapitalize="none" required></label>
+        <label>Contraseña<input name="p" type="password" autocomplete="current-password" required></label>
+        <div class="acciones"><button class="btn">Entrar</button></div></form>`;
+      return;
+    }
+    construirPanelAdmin();
+    pintarAdminListas();
+    return;
+  }
+  if (esAdmin) refrescarAdmin();
+}
+
 /* arma las horas de inicio y fin a partir de los campos del formulario */
 function armarHorario(fd){
-  const dia = fd.get('fecha'), hi = fd.get('inicio'), hf = fd.get('fin');
+  const dia = fd.get('fecha'), hi = leer24(fd, 'inicio'), hf = leer24(fd, 'fin');
   if (!dia || !hi || !hf) return {error: 'Completa la fecha, la hora de inicio y la hora de fin.'};
   if (hi === hf) return {error: 'La hora de fin debe ser distinta a la de inicio.'};
   const ini = new Date(`${dia}T${hi}`);
@@ -672,15 +1026,47 @@ function armarHorario(fd){
   if (fin <= ini) fin = new Date(fin.getTime() + 24 * HORA);   // termina después de medianoche
   return {ini, fin};
 }
+/* hora de publicación programada (debe ser futura y antes del inicio) */
+function armarPublicacion(fd, ini){
+  const dia = fd.get('pub_fecha'), h = leer24(fd, 'pub');
+  if (!dia || !h) return {error: 'Elige la fecha y la hora de publicación (o publícala ya).'};
+  const pub = new Date(`${dia}T${h}`);
+  if (pub.getTime() <= Date.now()) return {error: 'La hora de publicación debe ser en el futuro. Si quieres publicarla ya, elige «Publicarla ya».'};
+  if (pub.getTime() > ini.getTime()) return {error: 'La publicación debe ser antes de que empiece la mejenga.'};
+  return {pub};
+}
+
+/* llama a una función de Netlify con la sesión del árbitro */
+async function llamarFuncion(nombre, datos){
+  let r, j = {};
+  try {
+    r = await fetch('/.netlify/functions/' + nombre, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token},
+      body: JSON.stringify(datos)
+    });
+    j = await r.json().catch(() => ({}));
+  } catch { return {ok: false, error: 'No se pudo conectar con el servidor.'}; }
+  if (r.ok) return {ok: true, data: j};
+  if (r.status === 404) return {ok: false, error: 'No se encontró la función en Netlify. Revisa que la carpeta netlify/functions esté en GitHub y que el sitio se haya vuelto a desplegar.'};
+  return {ok: false, error: j.error || 'No se pudo completar la acción.'};
+}
 
 const adminEl = $('#vista-admin');
+
+adminEl.addEventListener('change', e => {
+  if (e.target.name === 'pub'){
+    const f = e.target.closest('form'), prog = f.querySelector('.pub-prog');
+    if (prog) prog.hidden = f.querySelector('input[name="pub"]:checked').value !== 'programada';
+  }
+});
 
 adminEl.addEventListener('submit', async e => {
   e.preventDefault();
   const f = e.target, fd = new FormData(f);
 
   if (f.id === 'f-login'){
-    const {error} = await sb.auth.signInWithPassword({email: aEmail(fd.get('u')), password: fd.get('p')});
+    const {error} = await sb.auth.signInWithPassword({email: emailDe(fd.get('u')), password: fd.get('p')});
     if (error) toast('Usuario o contraseña incorrectos.', 'error'); else toast('¡Bienvenido, árbitro! 🟨');
     return;
   }
@@ -688,12 +1074,21 @@ adminEl.addEventListener('submit', async e => {
     const h = armarHorario(fd);
     if (h.error) { toast(h.error, 'error'); return; }
     if (h.ini.getTime() <= Date.now()) { toast(ERRORES.FECHA_PASADA, 'error'); return; }
-    const {error} = await sb.from('mejengas').insert({
+    const fila = {
       titulo: fd.get('titulo').trim(), lugar: fd.get('lugar').trim(),
       fecha: h.ini.toISOString(), fin: h.fin.toISOString(), capacidad: Number(fd.get('capacidad'))
-    });
+    };
+    const programada = fd.get('pub') === 'programada';
+    if (programada){
+      const p = armarPublicacion(fd, h.ini);
+      if (p.error) { toast(p.error, 'error'); return; }
+      fila.publica = p.pub.toISOString();
+    }
+    const {error} = await sb.from('mejengas').insert(fila);
     if (error) { toast(msgError(error, 'No se pudo crear la mejenga.'), 'error'); return; }
-    toast('Mejenga creada ⚽'); await cargar(); pintarAdmin(); return;
+    toast(programada ? 'Mejenga programada 🕒 Se publicará a la hora elegida.' : 'Mejenga creada y publicada ⚽');
+    f.reset(); const pp = f.querySelector('.pub-prog'); if (pp) pp.hidden = true;
+    await cargar(); pintarAdminListas(); return;
   }
   if (f.dataset.editar){
     const m = mejengas.find(x => x.id === f.dataset.editar); if (!m) return;
@@ -705,26 +1100,34 @@ adminEl.addEventListener('submit', async e => {
     if ((cambioIni && h.ini.getTime() <= Date.now()) || (cambioFin && h.fin.getTime() <= Date.now())){
       toast(ERRORES.FECHA_PASADA, 'error'); return;
     }
-    const {error} = await sb.from('mejengas').update({
+    const cambios = {
       titulo: fd.get('titulo').trim(), lugar: fd.get('lugar').trim(),
       fecha: h.ini.toISOString(), fin: h.fin.toISOString(), capacidad: Number(fd.get('capacidad'))
-    }).eq('id', m.id);
+    };
+    if (estadoDe(m) === 'programada'){
+      const p = armarPublicacion(fd, h.ini);
+      if (p.error) { toast(p.error, 'error'); return; }
+      cambios.publica = p.pub.toISOString();
+    }
+    const {error} = await sb.from('mejengas').update(cambios).eq('id', m.id);
     if (error) { toast(msgError(error, 'No se pudo guardar.'), 'error'); return; }
-    toast('Cambios guardados ✅'); await cargar(); pintarAdmin(); return;
+    toast('Cambios guardados ✅'); await cargar(); pintarAdminListas(); return;
+  }
+  if (f.id === 'f-perfil'){
+    if (!session) return;
+    const nuevoUsuario = normalizarUsuario(fd.get('usuario')), actual = String(fd.get('actual') || ''), nueva = String(fd.get('nueva') || '');
+    if (nuevoUsuario === usuarioActual() && !nueva){ toast('No hay nada que cambiar: modifica tu usuario o escribe una contraseña nueva.', 'error'); return; }
+    const r = await llamarFuncion('editar-perfil', {passwordActual: actual, nuevoUsuario, nuevaPassword: nueva});
+    if (!r.ok){ toast(r.error, 'error'); return; }
+    toast('✅ Perfil actualizado. Entra de nuevo con tus datos nuevos.');
+    try { await sb.auth.signOut(); } catch {}
+    return;
   }
   if (f.id === 'f-admin'){
-    const usuario = String(fd.get('u')).trim().toLowerCase(), password = String(fd.get('p'));
     if (!session) return;
-    let r, j = {};
-    try {
-      r = await fetch('/.netlify/functions/crear-admin', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', Authorization: 'Bearer ' + session.access_token},
-        body: JSON.stringify({usuario, password})
-      });
-      j = await r.json().catch(() => ({}));
-    } catch { toast('No se pudo conectar con el servidor.', 'error'); return; }
-    if (!r.ok) { toast(j.error || 'No se pudo crear el árbitro.', 'error'); return; }
+    const usuario = normalizarUsuario(fd.get('u')), password = String(fd.get('p'));
+    const r = await llamarFuncion('crear-admin', {usuario, password});
+    if (!r.ok){ toast(r.error, 'error'); return; }
     $('#credenciales').innerHTML = `<div class="credenciales">✅ Árbitro creado. Entrégale estos datos:<br>Usuario: <b>${esc(usuario)}</b><br>Contraseña: <b>${esc(password)}</b><br>
       <div class="acciones"><button class="btn sec" type="button" data-copiarcred="${esc(usuario)}|${esc(password)}">📋 Copiar datos</button></div></div>`;
     f.reset(); toast('Árbitro creado 🧑‍⚖️');
@@ -735,6 +1138,15 @@ adminEl.addEventListener('click', async e => {
   if (manejarExportar(e)) return;
   const q = e.target.closest('[data-quitar]');
   if (q){ quitarAnotado(q.dataset.quitar); return; }
+
+  // pasador
+  const pg = e.target.closest('button[data-pag], button[data-pag-prev], button[data-pag-next]');
+  if (pg){
+    const cont = pg.closest('.pasador'); if (!cont || pg.disabled) return;
+    const actual = paginas[cont.dataset.pasador] || 0;
+    irPagina(cont, 'pag' in pg.dataset ? Number(pg.dataset.pag) : ('pagPrev' in pg.dataset ? actual - 1 : actual + 1));
+    return;
+  }
 
   const t = e.target.closest('button'); if (!t) return;
 
@@ -754,8 +1166,14 @@ adminEl.addEventListener('click', async e => {
   if (t.dataset.toggle){
     const m = mejengas.find(x => x.id === t.dataset.toggle); if (!m) return;
     const {error} = await sb.from('mejengas').update({abierta: !m.abierta}).eq('id', m.id);
-    if (error) { toast('No se pudo cambiar.', 'error'); return; }
-    toast(m.abierta ? 'Lista cerrada 🔒' : 'Lista abierta 🟢'); await cargar(); pintarAdmin(); return;
+    if (error) { toast(msgError(error, 'No se pudo cambiar.'), 'error'); return; }
+    toast(m.abierta ? 'Lista cerrada 🔒' : 'Lista abierta 🟢'); await cargar(); pintarAdminListas(); return;
+  }
+  if (t.dataset.publicarYa){
+    const m = mejengas.find(x => x.id === t.dataset.publicarYa); if (!m) return;
+    const {error} = await sb.from('mejengas').update({publica: new Date().toISOString()}).eq('id', m.id);
+    if (error) { toast(msgError(error, 'No se pudo publicar.'), 'error'); return; }
+    toast('🚀 Mejenga publicada'); await cargar(); pintarAdminListas(); return;
   }
   if (t.dataset.anuncio){
     const m = mejengas.find(x => x.id === t.dataset.anuncio); if (!m) return;
@@ -767,15 +1185,46 @@ adminEl.addEventListener('click', async e => {
     const m = mejengas.find(x => x.id === t.dataset.borrar); if (!m) return;
     const ok = await confirmar({
       icono: '🗑️', titulo: 'Eliminar mejenga',
-      texto: `Se borrará "${m.titulo}" y toda su lista de anotados. Esto no se puede deshacer.`,
+      texto: `Se borrará "${m.titulo}" con toda su lista de anotados y su historial. Esto no se puede deshacer.`,
       si: '🗑️ Sí, eliminar', no: 'Cancelar'
     });
     if (!ok) return;
     const {error} = await sb.from('mejengas').delete().eq('id', m.id);
     if (error) { toast('No se pudo eliminar.', 'error'); return; }
-    toast('Mejenga eliminada 🗑️'); await cargar(); pintarAdmin();
+    toast('Mejenga eliminada 🗑️'); await cargar(); pintarAdminListas();
   }
 });
+
+/* deslizar el pasador con el dedo */
+let toqueX = null, toqueY = null;
+adminEl.addEventListener('touchstart', e => {
+  if (!e.target.closest('.pasador-ventana') || e.target.closest('input,select,textarea,summary,button')){ toqueX = null; return; }
+  toqueX = e.touches[0].clientX; toqueY = e.touches[0].clientY;
+}, {passive: true});
+adminEl.addEventListener('touchend', e => {
+  if (toqueX === null) return;
+  const cont = e.target.closest('.pasador'); if (!cont){ toqueX = null; return; }
+  const dx = e.changedTouches[0].clientX - toqueX, dy = e.changedTouches[0].clientY - toqueY;
+  toqueX = null;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) irPagina(cont, (paginas[cont.dataset.pasador] || 0) + (dx < 0 ? 1 : -1));
+}, {passive: true});
+
+/* ---------- menú lateral ---------- */
+function abrirMenu(){
+  $('#drawer').classList.add('abierto'); $('#drawer-fondo').classList.add('abierto');
+  $('#drawer').setAttribute('aria-hidden', 'false'); $('#btn-menu').setAttribute('aria-expanded', 'true');
+  document.body.classList.add('sin-scroll'); $('#drawer-cerrar').focus();
+}
+function cerrarMenu(){
+  if (!$('#drawer').classList.contains('abierto')) return;
+  $('#drawer').classList.remove('abierto'); $('#drawer-fondo').classList.remove('abierto');
+  $('#drawer').setAttribute('aria-hidden', 'true'); $('#btn-menu').setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('sin-scroll'); $('#btn-menu').focus();
+}
+$('#btn-menu').addEventListener('click', abrirMenu);
+$('#drawer-cerrar').addEventListener('click', cerrarMenu);
+$('#drawer-fondo').addEventListener('click', cerrarMenu);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarMenu(); });
 
 /* ---------- pestañas ---------- */
 function irA(tab){
@@ -794,7 +1243,12 @@ async function iniciar(){
   sb.auth.onAuthStateChange((_evento, s) => {
     const antes = esAdmin;
     session = s; esAdmin = !!s;
-    if (antes !== esAdmin){ pintarJugador(); if (!$('#vista-admin').hidden) pintarAdmin(); }
+    if (antes !== esAdmin){
+      adminShell = null;
+      pintarJugador(true);
+      if (!$('#vista-admin').hidden) pintarAdmin();
+      cargar();   // el árbitro además ve las bajas y las mejengas aún no publicadas
+    }
   });
 
   await cargar();
@@ -809,13 +1263,11 @@ async function iniciar(){
   setInterval(() => { if (!document.hidden) cargar(); }, 30000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) cargar(); });
 
-  // cierre automático: cuando llega la hora de inicio o de fin, se refresca la vista sola
+  // cierre automático, publicación programada y fin de mejenga: la vista se actualiza sola
   setInterval(() => {
     if (!cargado) return;
-    if (mejengas.some(m => estadosPrev.get(m.id) !== estadoDe(m))){
-      pintarJugador();
-      if (esAdmin && !$('#vista-admin').hidden) actualizarListasAdmin();
-    }
+    if (mejengas.some(m => estadosPrev.get(m.id) !== estadoDe(m))) pintarJugador();
+    refrescarAdmin();
   }, 10000);
 
   if (location.hash === '#arbitro') irA('admin');
